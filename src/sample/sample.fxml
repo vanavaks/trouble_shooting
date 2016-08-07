@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane alignment="center" hgap="10" prefHeight="756.0" prefWidth="950.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="600.0" />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="424.0" />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+   </rowConstraints>
+   <children>
+      <TabPane maxWidth="1.7976931348623157E308" prefHeight="746.0" prefWidth="1045.0" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+        <tabs>
+          <Tab text="Forces">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.8551336146272855" layoutX="346.0" layoutY="473.0" orientation="VERTICAL" prefHeight="300.0" prefWidth="160.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="489.0" prefWidth="924.0">
+                                 <children>
+                                    <TableView fx:id="ForseTable" layoutX="14.0" layoutY="-91.0" prefHeight="536.0" prefWidth="914.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                       <columns>
+                                          <TableColumn fx:id="ForcEngName" prefWidth="130.0" text="Инженер" />
+                                          <TableColumn fx:id="ForcIniciatorName" prefWidth="88.0" text="Инициатор" />
+                                          <TableColumn fx:id="ForcDate" prefWidth="98.0" text="Дата" />
+                                          <TableColumn fx:id="ForcPLC" prefWidth="73.0" text="PLC" />
+                                          <TableColumn fx:id="ForcAdress" prefWidth="213.0" text="Адрес" />
+                                          <TableColumn fx:id="ForcNote" prefWidth="311.0" text="Примечание" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                                 <effect>
+                                    <InnerShadow />
+                                 </effect>
+                              </AnchorPane>
+                            <AnchorPane maxHeight="-Infinity" minHeight="120.0" minWidth="824.0" prefHeight="143.0" prefWidth="924.0">
+                                 <children>
+                                    <TabPane layoutX="14.0" layoutY="1.0" prefHeight="122.0" prefWidth="924.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+                                      <tabs>
+                                        <Tab text="Управление">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="928.0">
+                                                   <children>
+                                                      <HBox fillHeight="false" layoutX="382.0" layoutY="5.0" prefHeight="116.0" prefWidth="928.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <GridPane prefHeight="89.0" prefWidth="332.0">
+                                                              <columnConstraints>
+                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="94.0" />
+                                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="76.0" />
+                                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="417.0" minWidth="10.0" prefWidth="154.0" />
+                                                              </columnConstraints>
+                                                              <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                              </rowConstraints>
+                                                               <children>
+                                                                  <Label text="PLC" GridPane.columnIndex="1">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Label>
+                                                                  <Label text="Инженер" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Label>
+                                                                  <Label text="Инициатор" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Label>
+                                                                  <ComboBox fx:id="CombPLC" prefWidth="150.0" GridPane.columnIndex="2">
+                                                                     <contextMenu>
+                                                                        <ContextMenu>
+                                                                          <items>
+                                                                            <MenuItem fx:id="MI_AddPLC" mnemonicParsing="false" onAction="#MI_AddPLC_Tap" text="Добавить PLC" />
+                                                                          </items>
+                                                                        </ContextMenu>
+                                                                     </contextMenu></ComboBox>
+                                                                  <ComboBox fx:id="CombEngineer" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                                  <ComboBox fx:id="CombIniciator" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                                                  <Button fx:id="But_ForceAdd" mnemonicParsing="false" onAction="#But_ForceAdd_Tap" prefWidth="70.0" text="Добавить">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Button>
+                                                                  <Button fx:id="But_ForceUpdate" mnemonicParsing="false" onAction="#But_ForceUpdate_Tap" prefWidth="70.0" text="Изменить" GridPane.rowIndex="1">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Button>
+                                                                  <Button fx:id="But_ForceDel" mnemonicParsing="false" onAction="#But_ForceDel_Tap" prefHeight="25.0" prefWidth="70.0" text="Удалить" GridPane.rowIndex="2">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane prefHeight="93.0" prefWidth="164.0">
+                                                              <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                              </columnConstraints>
+                                                              <rowConstraints>
+                                                                <RowConstraints maxHeight="26.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                                                              </rowConstraints>
+                                                               <children>
+                                                                  <Label text="Дата установки" />
+                                                                  <DatePicker fx:id="DatPicker_ForceDate" prefHeight="25.0" prefWidth="164.0" GridPane.rowIndex="1" />
+                                                                  <Label text="Адрес" GridPane.rowIndex="2" />
+                                                                  <TextField fx:id="TW_ForseAddr" prefHeight="25.0" prefWidth="166.0" GridPane.rowIndex="3" />
+                                                               </children>
+                                                            </GridPane>
+                                                            <GridPane prefHeight="92.0" prefWidth="423.0">
+                                                              <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="272.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="151.0" />
+                                                              </columnConstraints>
+                                                              <rowConstraints>
+                                                                <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                                              </rowConstraints>
+                                                               <children>
+                                                                  <Label text="Примечание">
+                                                                     <GridPane.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </Label>
+                                                                  <TextArea fx:id="TW_ForceNote" prefHeight="46.0" prefWidth="211.0" GridPane.rowIndex="1">
+                                                                     <GridPane.margin>
+                                                                        <Insets bottom="2.0" left="5.0" />
+                                                                     </GridPane.margin>
+                                                                  </TextArea>
+                                                               </children>
+                                                            </GridPane>
+                                                         </children>
+                                                         <effect>
+                                                            <InnerShadow />
+                                                         </effect>
+                                                      </HBox>
+                                                   </children>
+                                                </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                        <Tab text="Фильтр">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="90.0" prefWidth="825.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="0.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="0.0" prefWidth="91.0" />
+                                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="167.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="405.0" minWidth="10.0" prefWidth="201.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="194.0" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="194.0" />
+                                                        </columnConstraints>
+                                                        <rowConstraints>
+                                                          <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        </rowConstraints>
+                                                         <children>
+                                                            <Label text="PLC">
+                                                               <GridPane.margin>
+                                                                  <Insets left="5.0" />
+                                                               </GridPane.margin>
+                                                            </Label>
+                                                            <Label text="Инженер" GridPane.rowIndex="1">
+                                                               <GridPane.margin>
+                                                                  <Insets left="5.0" />
+                                                               </GridPane.margin>
+                                                            </Label>
+                                                            <Label text="Инициатор" GridPane.rowIndex="2">
+                                                               <GridPane.margin>
+                                                                  <Insets left="5.0" />
+                                                               </GridPane.margin>
+                                                            </Label>
+                                                            <ComboBox fx:id="CombPLC_Filter" prefWidth="150.0" GridPane.columnIndex="1" />
+                                                            <ComboBox fx:id="CombEngineer_Filter" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <ComboBox fx:id="CombIniciator_Filter" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                            <DatePicker fx:id="DatPicker_Before" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                            <DatePicker fx:id="DatPicker_After" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                                            <Label text="Период" GridPane.columnIndex="2" />
+                                                            <Button fx:id="But_ForseFilter" mnemonicParsing="false" onAction="#But_ForceFilter_Tap" prefWidth="105.0" text="Отобразить" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                                            <Button fx:id="But_ForseFilterReset" mnemonicParsing="false" onAction="#But_ForceFilterReset_Tap" text="сброс фильтров" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                                         </children>
+                                                      </GridPane>
+                                                   </children>
+                                                   <effect>
+                                                      <InnerShadow />
+                                                   </effect>
+                                                </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                           <effect>
+                              <DisplacementMap>
+                                 <mapData>
+                                    <FloatMap />
+                                 </mapData>
+                              </DisplacementMap>
+                           </effect>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Неисправности">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.46853146853146854" layoutX="58.0" layoutY="46.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TableView fx:id="troubleTable" prefHeight="398.0" prefWidth="928.0" AnchorPane.bottomAnchor="-66.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                          <TableColumn fx:id="troubleTable_Equipment" prefWidth="147.0" text="Оборудование" />
+                                          <TableColumn fx:id="troubleTable_Data" prefWidth="71.0" text="Дата" />
+                                        <TableColumn fx:id="troubleTable_Note" prefWidth="184.0" text="Неисправность" />
+                                          <TableColumn fx:id="troubleTable_Reason" prefWidth="174.0" text="Причина" />
+                                          <TableColumn fx:id="troubleTable_Actions" prefWidth="156.0" text="Мероприятия" />
+                                          <TableColumn fx:id="troubleTable_PPR" prefWidth="50.0" text="ППР" />
+                                      </columns>
+                                       <contextMenu>
+                                          <ContextMenu>
+                                            <items>
+                                                <MenuItem fx:id="troubleAdd" mnemonicParsing="false" onAction="#troubleAdd_Tap" text="Добавить неисправность" />
+                                              <MenuItem mnemonicParsing="false" onAction="#troubleUpdate_Tap" text="Изменить несправность" />
+                                                <MenuItem mnemonicParsing="false" onAction="#troubleDelete_Tap" text="Удалить неисправность" />
+                                            </items>
+                                          </ContextMenu>
+                                       </contextMenu>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="279.0" prefWidth="928.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.664" layoutX="133.0" layoutY="14.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <TableView fx:id="ForseTable1" layoutX="-75.0" layoutY="4.0" prefHeight="536.0" prefWidth="914.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="ForcEngName1" prefWidth="130.0" text="Инженер" />
+                                                      <TableColumn fx:id="ForcIniciatorName1" prefWidth="88.0" text="Инициатор" />
+                                                      <TableColumn fx:id="ForcPLC1" prefWidth="73.0" text="PLC" />
+                                                      <TableColumn fx:id="ForcAdress1" prefWidth="213.0" text="Адрес" />
+                                                      <TableColumn fx:id="ForcNote1" prefWidth="311.0" text="Примечание" />
+                                                   </columns>
+                                                </TableView>
+                                                <Label layoutX="14.0" layoutY="6.0" text="Forces" />
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="154.0" prefWidth="926.0">
+                                             <children>
+                                                <Button fx:id="But_TroubleInsert" layoutX="8.0" layoutY="18.0" mnemonicParsing="false" onAction="#But_TroubleInsert_Tap" text="Добавить" />
+                                                <Button fx:id="But_TroubleUpdate" layoutX="8.0" layoutY="53.0" mnemonicParsing="false" onAction="#But_TroubleUpdate_Tap" text="Изменить" />
+                                                <Button fx:id="But_TroubleDelete" layoutX="8.0" layoutY="90.0" mnemonicParsing="false" onAction="#But_TroubleDelete_Tap" text="Удалить" />
+                                                <Label layoutX="117.0" layoutY="22.0" text="Зона" />
+                                                <Label layoutX="117.0" layoutY="57.0" text="Дата" />
+                                                <Label layoutX="351.0" layoutY="14.0" text="Описание неисправности" />
+                                                <ComboBox layoutX="168.0" layoutY="18.0" prefWidth="150.0">
+                                                   <contextMenu>
+                                                      <ContextMenu fx:id="CMenu_TrblZone">
+                                                        <items>
+                                                          <MenuItem fx:id="CMenu_TrblZoneAdd" mnemonicParsing="false" onAction="#CMenu_TrblZoneAdd_Tap" text="Добавить подзону" />
+                                                        </items>
+                                                      </ContextMenu>
+                                                   </contextMenu></ComboBox>
+                                                <DatePicker layoutX="168.0" layoutY="53.0" />
+                                                <TextArea layoutX="351.0" layoutY="32.0" prefHeight="85.0" prefWidth="282.0" />
+                                                <TextArea layoutX="638.0" layoutY="33.0" prefHeight="86.0" prefWidth="268.0" />
+                                                <Label layoutX="638.0" layoutY="14.0" text="Решение проблемы" />
+                                                <Button fx:id="But_newForce" layoutX="168.0" layoutY="91.0" mnemonicParsing="false" onAction="#But_newForce_Tap" text="Создать Force" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab text="Зоны">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutX="14.0" layoutY="14.0" minHeight="0.0" minWidth="0.0" prefHeight="604.0" prefWidth="837.0">
+                           <children>
+                              <TableView fx:id="ZoneTable" layoutX="14.0" layoutY="14.0" prefHeight="267.0" prefWidth="512.0">
+                                 <columns>
+                                    <TableColumn fx:id="ZonePosColumn" prefWidth="89.0" text="Позиция" />
+                                    <TableColumn fx:id="ZoneNameColumn" prefWidth="142.0" text="Название" />
+                                    <TableColumn fx:id="ZoneNoteColumn" prefWidth="280.0" text="Примечание" />
+                                 </columns>
+                              </TableView>
+                              <GridPane layoutX="539.0" layoutY="14.0" prefHeight="270.0" prefWidth="155.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="168.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="0.0" prefWidth="0.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button fx:id="But_ZoneUpdate" mnemonicParsing="false" onAction="#But_ZoneUpdate_Tap" text="Изменить зону" GridPane.rowIndex="8" />
+                                    <Button fx:id="But_ZoneDel" mnemonicParsing="false" onAction="#But_ZoneDel_Tap" text="Удалить зону" GridPane.rowIndex="7" />
+                                    <Button fx:id="But_ZoneAdd" mnemonicParsing="false" onAction="#But_ZoneAdd_Tap" text="Добавить зону" GridPane.rowIndex="6" />
+                                    <Label text="Позиция" />
+                                    <Label text="Название" GridPane.rowIndex="2" />
+                                    <Label text="Примечание" GridPane.rowIndex="4" />
+                                    <TextField fx:id="TW_Zone_name" GridPane.rowIndex="3" />
+                                    <TextField fx:id="TW_Zone_note" GridPane.rowIndex="5" />
+                                    <TextField fx:id="TW_Zone_pos" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
+                              <TableView fx:id="subzoneTableview" layoutX="14.0" layoutY="333.0" prefHeight="200.0" prefWidth="341.0">
+                                <columns>
+                                  <TableColumn fx:id="subzoneTableName" prefWidth="75.0" text="Название" />
+                                  <TableColumn fx:id="subzoneTableZone" prefWidth="75.0" text="Зона" />
+                                    <TableColumn fx:id="subzoneTableNote" prefWidth="190.0" text="Описание" />
+                                </columns>
+                                 <contextMenu>
+                                    <ContextMenu>
+                                      <items>
+                                        <MenuItem fx:id="MI_subzoneDel" mnemonicParsing="false" onAction="#MI_subzoneDel_Tap" text="Удалить" />
+                                          <MenuItem fx:id="MI_subzoneAdd" mnemonicParsing="false" onAction="#MI_subzoneAdd_Tap" text="Добавить" />
+                                          <MenuItem fx:id="MI_subzoneUpdate" mnemonicParsing="false" onAction="#MI_subzoneUpdate_Tap" text="Изменить" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu>
+                              </TableView>
+                              <Label layoutX="14.0" layoutY="302.0" text="подзона" />
+                              <TableView layoutX="480.0" layoutY="333.0" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                              <Label layoutX="480.0" layoutY="302.0" text="позиция" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="PLC">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TitledPane animated="false" layoutX="14.0" layoutY="14.0" prefHeight="380.0" prefWidth="581.0" text="PLC">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="plcTable" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="250.0">
+                                       <columns>
+                                          <TableColumn fx:id="plcTableName" prefWidth="105.0" text="Название" />
+                                          <TableColumn fx:id="plcTablePass" prefWidth="95.0" text="Пароль" />
+                                       </columns>
+                                    </TableView>
+                                    <TextField fx:id="TW_PLCLabel" layoutX="279.0" layoutY="43.0" />
+                                    <TextField fx:id="TW_PLCPass" layoutX="279.0" layoutY="85.0" />
+                                    <Label layoutX="279.0" layoutY="26.0" text="Название" />
+                                    <Label layoutX="279.0" layoutY="68.0" text="Пароль" />
+                                    <Button fx:id="But_PLCAdd" layoutX="280.0" layoutY="114.0" mnemonicParsing="false" onAction="#But_PLCAdd_Tap" text="Добавить" />
+                                    <Button fx:id="But_PLCUpdate" layoutX="280.0" layoutY="149.0" mnemonicParsing="false" onAction="#But_PLCUpdate_Tap" text="Изменить" />
+                                    <Button fx:id="But_PLCDel" layoutX="280.0" layoutY="183.0" mnemonicParsing="false" onAction="#But_PLCDel_Tap" text="Удалить" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Инициаторы">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TitledPane animated="false" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="576.0" text="Инициаторы">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="iniciatorTableView" layoutX="14.0" layoutY="14.0" prefHeight="195.0" prefWidth="377.0">
+                                       <columns>
+                                          <TableColumn fx:id="iniciatorTableName" prefWidth="179.0" text="Имя" />
+                                          <TableColumn fx:id="iniciatorTableNote" prefWidth="192.0" text="Примечание" />
+                                       </columns>
+                                    </TableView>
+                                    <Label layoutX="14.0" layoutY="216.0" text="Имя" />
+                                    <Label layoutX="215.0" layoutY="216.0" text="Примечание" />
+                                    <TextField fx:id="TW_iniciatorName" layoutX="14.0" layoutY="233.0" />
+                                    <TextField fx:id="TW_iniciatorNote" layoutX="215.0" layoutY="233.0" />
+                                    <Button fx:id="But_iniciatorAdd" layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#But_InicAdd_Tap" text="Добавить" />
+                                    <Button fx:id="But_iniciatorUpdate" layoutX="100.0" layoutY="269.0" mnemonicParsing="false" onAction="#But_InicUpdate_Tap" text="Изменить" />
+                                    <Button fx:id="But_iniciatorDel" layoutX="189.0" layoutY="269.0" mnemonicParsing="false" onAction="#But_InicDel_Tap" text="Удалить" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Инженеры">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TitledPane animated="false" layoutX="14.0" layoutY="5.0" prefHeight="386.0" prefWidth="708.0" text="Инженеры">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="EngTable" layoutX="14.0" layoutY="14.0" prefHeight="226.0" prefWidth="294.0">
+                                       <columns>
+                                          <TableColumn fx:id="EngLnameColumn" prefWidth="77.0" text="Фамилия" />
+                                          <TableColumn fx:id="EngFnameColumn" prefWidth="99.0" text="Имя" />
+                                          <TableColumn fx:id="EngShiftColumn" prefWidth="116.0" text="Смена" />
+                                       </columns>
+                                    </TableView>
+                                    <TextField fx:id="TW_EngName" layoutX="324.0" layoutY="88.0" />
+                                    <TextField fx:id="TW_EngShift" layoutX="324.0" layoutY="136.0" />
+                                    <Button fx:id="But_EngAdd" layoutX="323.0" layoutY="170.0" mnemonicParsing="false" onAction="#But_EngAdd_Tap" text="Добавить" />
+                                    <Button fx:id="But_EngUpdate" layoutX="405.0" layoutY="170.0" mnemonicParsing="false" onAction="#But_EngUpdate_Tap" text="Изменить" />
+                                    <Button fx:id="But_EngDel" layoutX="324.0" layoutY="211.0" mnemonicParsing="false" onAction="#But_EngDel_Tap" text="Удалить" />
+                                    <Label layoutX="324.0" layoutY="71.0" text="Имя" />
+                                    <Label layoutX="324.0" layoutY="119.0" text="Смена" />
+                                    <Label layoutX="324.0" layoutY="29.0" text="Фамилия" />
+                                    <TextField fx:id="TW_EngLastName" layoutX="324.0" layoutY="46.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Image">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="ImageView1" fitHeight="482.0" fitWidth="736.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <ChoiceBox fx:id="Comb_images" layoutX="54.0" layoutY="509.0" prefWidth="150.0" />
+                        <Button fx:id="But_ChooseImageFile" layoutX="232.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_ChooseImageFile_Tap" text="Выбрать файл" />
+                        <TextField fx:id="TW_imageName" layoutX="348.0" layoutY="509.0" />
+                        <Button fx:id="But_imagePrev" layoutX="568.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_imagePrev_Tap" text="prev" />
+                        <Button fx:id="But_imageNext" layoutX="646.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_imageNext_Tap" text="next" />
+                        <Button fx:id="But_imageAdd" layoutX="511.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_imageAdd_Tap" text="Add" />
+                        <Button fx:id="But_imageGet" layoutX="14.0" layoutY="509.0" mnemonicParsing="false" text="Get" />
+                        <Button fx:id="But_getClipboardImage" layoutX="698.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_getClipboardImage_Tap" text="Clipboard" />
+                        <Button fx:id="But_ImageDel" layoutX="779.0" layoutY="509.0" mnemonicParsing="false" onAction="#But_ImageDel_Tap" text="Del" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Приборы">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.7012622720897616" layoutX="9.0" layoutY="180.0" orientation="VERTICAL" prefHeight="704.0" prefWidth="928.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="274.0" prefWidth="917.0">
+                                 <children>
+                                    <VBox layoutX="35.0" layoutY="47.0" prefHeight="263.0" prefWidth="924.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                                       <children>
+                                          <Label text="Приборы автоматики" />
+                                          <TableView fx:id="instrumentTable" prefHeight="393.0" prefWidth="924.0">
+                                            <columns>
+                                              <TableColumn fx:id="instrumenTableManufacturer" prefWidth="120.0" text="Производитель" />
+                                              <TableColumn fx:id="instrumenTableType" prefWidth="123.0" text="Тип" />
+                                                <TableColumn fx:id="instrumenTableFunc" prefWidth="115.0" text="Функция" />
+                                                <TableColumn fx:id="instrumenTableOrderNum" prefWidth="215.0" text="Заказной номер" />
+                                                <TableColumn fx:id="instrumenTableParams" prefWidth="289.0" text="Параметры" />
+                                                <TableColumn fx:id="instrumenTableSpare" prefWidth="63.0" text="Кол. ЗИП" />
+                                            </columns>
+                                          </TableView>
+                                          <GridPane prefHeight="86.0" prefWidth="924.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Button fx:id="But_Instrument_Insert" mnemonicParsing="false" onAction="#But_Instrument_Insert_Tap" text="Добавить" />
+                                                <Button fx:id="But_Instrument_Update" mnemonicParsing="false" onAction="#But_Instrument_Update_Tap" text="Изменить" GridPane.rowIndex="1" />
+                                                <Button fx:id="But_Instrument_Del" mnemonicParsing="false" onAction="#But_Instrument_Del_Tap" text="Удалить" GridPane.rowIndex="2" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="926.0">
+                                 <children>
+                                    <GridPane layoutX="91.0" layoutY="6.0" prefHeight="359.0" prefWidth="924.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="115.0" minHeight="0.0" prefHeight="14.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="285.0" minHeight="10.0" prefHeight="185.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="153.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Функция прибора" />
+                                          <Label text="Производитель" GridPane.columnIndex="1" />
+                                          <TableView fx:id="instrumentFuncTable" prefHeight="200.0" prefWidth="383.0" GridPane.rowIndex="1">
+                                            <columns>
+                                              <TableColumn fx:id="instrumentFuncTableName" prefWidth="174.0" text="Функция" />
+                                              <TableColumn fx:id="instrumentFuncTableNote" prefWidth="287.0" text="Описание" />
+                                            </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                  <items>
+                                                      <MenuItem fx:id="functionDelete" mnemonicParsing="false" onAction="#instrumentFuncDelete_Tap" text="Удалить" />
+                                                      <MenuItem fx:id="functionUpdate" mnemonicParsing="false" onAction="#instrumentFuncUpdate_Tap" text="Изменить" />
+                                                      <MenuItem fx:id="functionInsert" mnemonicParsing="false" onAction="#instrumentFuncInsert_Tap" text="Добавить" />
+                                                  </items>
+                                                </ContextMenu>
+                                             </contextMenu>
+                                          </TableView>
+                                          <TableView fx:id="manufacturerTable" prefHeight="200.0" prefWidth="446.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <columns>
+                                              <TableColumn fx:id="manufacturerTableName" prefWidth="154.0" text="Производитель " />
+                                              <TableColumn fx:id="manufacturerTableNote" prefWidth="307.0" text="Примечание" />
+                                            </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                  <items>
+                                                    <MenuItem fx:id="manufactureInsert" mnemonicParsing="false" onAction="#manufactureInsert_Tap" text="Добавить" />
+                                                      <MenuItem fx:id="manufactureUpdate" mnemonicParsing="false" onAction="#manufactureUpdate_Tap" text="Изменить" />
+                                                      <MenuItem fx:id="manufactureDelete" mnemonicParsing="false" onAction="#manufactureDelete_Tap" text="Удалить" />
+                                                  </items>
+                                                </ContextMenu>
+                                             </contextMenu>
+                                          </TableView>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Оборудование">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="281.0" layoutY="106.0" prefHeight="685.0" prefWidth="928.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                           <children>
+                              <TableView fx:id="equipmentTable" prefHeight="618.0" prefWidth="928.0">
+                                <columns>
+                                  <TableColumn fx:id="equipmentTablePos" prefWidth="75.0" text="Позиция" />
+                                  <TableColumn fx:id="equipmentTableName" prefWidth="75.0" text="Название" />
+                                    <TableColumn fx:id="equipmentTableSubzone" prefWidth="75.0" text="Подзона" />
+                                    <TableColumn fx:id="equipmentTableInstrument" prefWidth="75.0" text="Прибор" />
+                                    <TableColumn fx:id="equipmentTableApointment" prefWidth="75.0" text="Назначение" />
+                                    <TableColumn fx:id="equipmentTablePage" prefWidth="75.0" text="Страница" />
+                                    <TableColumn fx:id="equipmentTableNote" prefWidth="75.0" text="Примечание" />
+                                </columns>
+                              </TableView>
+                              <GridPane prefHeight="88.0" prefWidth="928.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="552.0" minWidth="10.0" prefWidth="41.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="699.0" minWidth="10.0" prefWidth="699.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Button fx:id="But_EquipmentUpdate" mnemonicParsing="false" onAction="#But_EquipmentUpdate_Tap" text="Изменить" GridPane.rowIndex="1" />
+                                    <Button fx:id="But_EquipmentInsert" mnemonicParsing="false" onAction="#But_EquipmentInsert_Tap" text="Добавить" />
+                                    <Button fx:id="But_EquipmentDelete" mnemonicParsing="false" onAction="#But_EquipmentDelete_Tap" text="Удалить" GridPane.rowIndex="2" />
+                                    <Label text="Прибор" GridPane.columnIndex="1" />
+                                    <Label text="Тип" GridPane.columnIndex="2" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Оборудование">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeTableView fx:id="zoneTreeTableView" layoutX="25.0" layoutY="29.0" prefHeight="605.0" prefWidth="901.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#But_ZoneAdd_Tap" text="Добавить зону" />
+                                  <MenuItem mnemonicParsing="false" onAction="#But_ZoneUpdate_Tap" text="Изменить зону" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_ZoneDel_Tap" text="Удалить зону" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem mnemonicParsing="false" onAction="#MI_subzoneAdd_Tap" text="Добавить подзону" />
+                                    <MenuItem mnemonicParsing="false" onAction="#MI_subzoneUpdate_Tap" text="Изменить подзону" />
+                                    <MenuItem mnemonicParsing="false" onAction="#MI_subzoneDel_Tap" text="Удалить подзону" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_EquipmentInsert_Tap" text="Добавить оборудование" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_EquipmentUpdate_Tap" text="Изменить оборудвание" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_EquipmentDelete_Tap" text="Удалить оборудование" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu></TreeTableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Приборы">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeTableView fx:id="InstrumentsTreeTableView" layoutX="14.0" layoutY="44.0" prefHeight="668.0" prefWidth="913.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#manufactureInsert_Tap" text="Добавить производителя" />
+                                    <MenuItem mnemonicParsing="false" onAction="#manufactureUpdate_Tap" text="Изменить производителя" />
+                                  <MenuItem mnemonicParsing="false" onAction="#manufactureDelete_Tap" text="Удалить производителя" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem mnemonicParsing="false" onAction="#instrumentFuncInsert_Tap" text="Добавить функцию" />
+                                    <MenuItem mnemonicParsing="false" onAction="#instrumentFuncUpdate_Tap" text="Изменить функцию" />
+                                    <MenuItem mnemonicParsing="false" onAction="#instrumentFuncDelete_Tap" text="Удалить функцию" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_Instrument_Insert_Tap" text="Добавить прибор" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_Instrument_Update_Tap" text="Изменить прибор" />
+                                    <MenuItem mnemonicParsing="false" onAction="#But_Instrument_Del_Tap" text="Удалить прибор" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                           <effect>
+                              <InnerShadow />
+                           </effect></TreeTableView>
+                        <RadioButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="RadioButton" />
+                        <RadioButton layoutX="133.0" layoutY="14.0" mnemonicParsing="false" text="RadioButton" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</GridPane>
