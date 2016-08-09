@@ -54,10 +54,10 @@ public class DialogTemplate {
         stage.show();
     }
 
-    public void addRow(String name, String val){
-        Row row = new Row(name, val);
-
-    }
+//    public void addRow(String name, String val){
+//        Row row = new Row(name, val);
+//
+//    }
 
     public void addRow(String name, Integer val){
 

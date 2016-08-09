@@ -31,19 +31,32 @@ import java.util.Map;
 //    String table();
 //}
 
-public abstract class dialogableModelDB extends ModelDB {
-    protected Map<String, Object> varMap;
-        //Function update model from map
-    public dialogableModelDB(){varMap = new HashMap<String, Object>();}
-    //public abstract void updateFromMap();
-    public Map<String, Object> getVarMap() {
-        return varMap;
+public abstract class dialogableModelDB extends ModelDB implements Cloneable {
+//    protected Map<String, Object> varMap;
+//        //Function update model from map
+//    public dialogableModelDB(){varMap = new HashMap<String, Object>();}
+
+    @Override
+    public Object clone(){
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Ошибка клонирования dialogable model");
+            e.printStackTrace();
+        }
+        return null;
     }
+
+//    //public abstract void updateFromMap();
+//    public Map<String, Object> getVarMap() {
+//        return varMap;
+//    }
 
     private String addVal(String value, String column){
         return value + column + ", ";
     }
     public abstract ObservableList<?> getData();
+    //public abstract Gettable<? extends dialogableModelDB> getNew();
 
     public Field[] getFields(){
         Class<?> c = this.getClass();

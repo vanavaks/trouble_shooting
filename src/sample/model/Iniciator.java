@@ -20,8 +20,8 @@ public class Iniciator extends dialogableModelDB {
         this.name = name;
         this.note = note;
 
-        super.varMap.put(nameTitle, name);
-        super.varMap.put(noteTitle, note);
+//        super.varMap.put(nameTitle, name);
+//        super.varMap.put(noteTitle, note);
     }
     public Iniciator(){}
 
@@ -147,8 +147,8 @@ public class Iniciator extends dialogableModelDB {
     @Override public String toString(){
         return this.getName();
     }
-    public void updateFromMap() {
-        this.setName((String) varMap.get(nameTitle));
-        this.setNote((String) varMap.get(noteTitle));
-    }
+//    public void updateFromMap() {
+//        this.setName((String) varMap.get(nameTitle));
+//        this.setNote((String) varMap.get(noteTitle));
+//    }
 }

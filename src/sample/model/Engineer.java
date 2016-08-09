@@ -29,10 +29,10 @@ public class Engineer extends dialogableModelDB {
         this.lastName = new SimpleStringProperty(lastName);
         this.shift = new SimpleStringProperty(shift);
 
-        varMap = new HashMap<String, Object>();
-        super.varMap.put(firstNameTitle,this.getFirstName());
-        super.varMap.put(lastNameTitle,this.getLastName());
-        super.varMap.put(shiftTitle,this.getShift());
+//        varMap = new HashMap<String, Object>();
+//        super.varMap.put(firstNameTitle,this.getFirstName());
+//        super.varMap.put(lastNameTitle,this.getLastName());
+//        super.varMap.put(shiftTitle,this.getShift());
     }
 
     public ObservableList<Engineer> getData(){
@@ -178,10 +178,10 @@ public class Engineer extends dialogableModelDB {
     @Override public String toString(){
         return firstName.get() + " " + lastName.get();
     }
-    public void updateFromMap() {
-        this.setFirstName((String) (this.varMap).get(firstNameTitle));
-        this.setLastName((String) (this.varMap).get(lastNameTitle));
-        this.setShift((String) (this.varMap).get(shiftTitle));
-    }
+//    public void updateFromMap() {
+//        this.setFirstName((String) (this.varMap).get(firstNameTitle));
+//        this.setLastName((String) (this.varMap).get(lastNameTitle));
+//        this.setShift((String) (this.varMap).get(shiftTitle));
+//    }
 
 }

@@ -91,6 +91,8 @@ public class Equipment extends dialogableModelDB{
 //        }
 //        return list;
     }
+
+
     public static ObservableList<Equipment> getDataFiltered(SubZone subZone, Instrument instrument){
         ObservableList<Equipment> list = FXCollections.observableArrayList();
         String query =  "SELECT * " +
@@ -104,6 +106,8 @@ public class Equipment extends dialogableModelDB{
         else if(instrument != null){
             query += " WHERE `instrment_id`=" + instrument.getId();
         }
+        query += " order by position";
+        System.out.println(query);
         try{
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery( query );

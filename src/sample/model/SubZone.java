@@ -93,12 +93,19 @@ public class SubZone extends dialogableModelDB {
 //        }
 //        return null;
     }
+
+//    @Override
+//    public Gettable<? extends dialogableModelDB> getNew() {
+//        return new SubZone();
+//    }
+
     public static ObservableList<SubZone> getDataFiltered(Zone zone){
         ObservableList<SubZone> list = FXCollections.observableArrayList();
         String query = "SELECT * FROM troubleshooting.subzone";
         if(zone != null){
             query += " WHERE `zoneId`=" + zone.getId();
         }
+        query += " order by position";
 //                "SELECT  A.id, " +
 //                "A.name, " +
 //                "A.note, " +
@@ -266,8 +273,12 @@ public class SubZone extends dialogableModelDB {
     public void delete(){
         ObservableList<Equipment> list = Equipment.getDataFiltered(this,null);
         if(list.size() == 0){
-            this.delete();
+            super.delete();
         }
+    }
+
+    public static SubZone createNew() {
+        return new SubZone();
     }
 
     public void update(){

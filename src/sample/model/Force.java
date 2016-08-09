@@ -57,12 +57,12 @@ public class Force extends dialogableModelDB {
 
         //this.engineerName = new SimpleStringProperty(firstName + lastName);
 
-        varMap.put(dateTitle,this.getDate());
-        varMap.put(noteTitle, this.getNote());
-        varMap.put(adressTitle,this.getAdress());
-        varMap.put(engineerTitle,this.engineer);
-        varMap.put(plcTitle, this.plc);
-        varMap.put(iniciatorTitle,this.iniciator);
+//        varMap.put(dateTitle,this.getDate());
+//        varMap.put(noteTitle, this.getNote());
+//        varMap.put(adressTitle,this.getAdress());
+//        varMap.put(engineerTitle,this.engineer);
+//        varMap.put(plcTitle, this.plc);
+//        varMap.put(iniciatorTitle,this.iniciator);
     }
     public Force(int id, int engineer_id, int iniciator_id, Date date, int PLC_id, String adress, String note, ObservableList<Engineer> engList, ObservableList<PLC> plcList, ObservableList<Iniciator> inicList){
         this(id,engineer_id,iniciator_id,date,PLC_id,adress,note);
@@ -391,12 +391,12 @@ public class Force extends dialogableModelDB {
 //        this.initiator_name.set(initiator_name);
 //    }
 
-    public void updateFromMap() {
-        this.setAdress((String) super.varMap.get(adressTitle));
-        this.setNote((String) super.varMap.get(noteTitle));
-        this.setDate((Date)super.varMap.get(dateTitle));
-        this.setEngineer((Engineer) super.varMap.get(engineerTitle));
-        this.setIniciator((Iniciator) super.varMap.get(iniciatorTitle));
-        this.setPlc((PLC) super.varMap.get(plcTitle));
-    }
+//    public void updateFromMap() {
+//        this.setAdress((String) super.varMap.get(adressTitle));
+//        this.setNote((String) super.varMap.get(noteTitle));
+//        this.setDate((Date)super.varMap.get(dateTitle));
+//        this.setEngineer((Engineer) super.varMap.get(engineerTitle));
+//        this.setIniciator((Iniciator) super.varMap.get(iniciatorTitle));
+//        this.setPlc((PLC) super.varMap.get(plcTitle));
+//    }
 }

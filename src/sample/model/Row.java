@@ -2,10 +2,11 @@ package sample.model;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,17 +21,211 @@ import java.util.Date;
 
 /**
  * Created by Иван on 06.07.2016.
+ * Revision 0.2 08.08.2016
+ * - Validation in external class
+ * - All changes get in event handlers
+ * - Class work with models fields
  */
-public class Row<T> {
-    private String field;
-    private String name;
-    private int n;  //number of properties
+public class Row<T extends dialogableModelDB> {
     private Node node;
     private HBox box;     //выравнивание столбцов нет
-    private Label validator;
+    private Label validText;
     private Field f;
+    private boolean isValid = true;
+    private T model;
+    public ObservableList list;
     private static final double spacing = 100;
-    private boolean validationOk = true;
+
+    public Row(Field f, T model){
+        this.setF(f);
+        this.setModel(model);
+        Column column = f.getAnnotation(Column.class);
+        validText = new Label("");
+        box = new HBox(spacing);
+        Text text = new Text(column.title());
+        VBox vbox = new VBox();
+
+        box.getChildren().addAll(text, vbox);
+
+        try {
+            Object o = f.get(model);
+            if(o instanceof String){
+                createStrRow((String) o);
+            }
+            else if(o instanceof java.util.Date){
+                createDateRow((java.util.Date)o);
+            }
+            else if(o instanceof dialogableModelDB){
+                createModelRow((dialogableModelDB) o);
+            }
+            else if (o instanceof Integer){
+                createIntRow((Integer)o);
+            }
+            else if (o instanceof Boolean){
+                createBoolRow((Boolean)o);
+            }
+            else{
+                node = new Button();
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("--can't find model field--");
+            e.printStackTrace();
+        }
+            //visual component creation
+        vbox.getChildren().addAll(this.node, validText);
+    }
+
+    private void createIntRow(Integer val) {
+        TextField tf = new TextField(val.toString());
+        this.node = tf;
+
+        tf.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                Class<?> c = model.getClass();
+                try {
+                    if(Validator.isValidInt(tf.getText())){
+                        f.set(model,Integer.parseInt(tf.getText()));
+                        String s = Validator.validate(f,model);
+                        setValid(s);
+                    }
+                    else{
+                        setValid("Допустимы только целые числа");
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+//
+//
+//                NotNull nnAnot = f.getAnnotation(NotNull.class);
+//                if(f.isAnnotationPresent(NotNull.class)) {
+//                    if (tf.getText().equals("")) {
+//                        validText.setStyle("-fx-text-fill:red");
+//                        validText.setText(nnAnot.message());
+//                    }
+//                }
+            }
+        });
+    }
+
+
+    private void createBoolRow(Boolean val) {
+        CheckBox cb = new CheckBox();
+        this.node = cb;
+        cb.setSelected(val);
+        cb.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                Class<?> c = model.getClass();
+                try {
+                    f.set(model,cb.isSelected());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private <L extends dialogableModelDB> void createModelRow(L mdl) {
+        ComboBox<L> cmb = new ComboBox<L>();
+        this.node = cmb;
+        cmb.setValue(mdl);
+        list = mdl.getData();
+        cmb.setItems(list);
+
+        cmb.setOnHidden(new EventHandler<Event>(){
+            @Override
+            public void handle(Event event) {
+                try {
+                    L m = cmb.getSelectionModel().getSelectedItem();
+                    f.set(model,m);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Button button = new Button("Новый");
+        button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+
+                EditDialog<T> E = new EditDialog(mdl);
+                mdl.insert();
+                //updateList(mdl);
+                list = mdl.getData();
+                cmb.setItems(list);
+                cmb.setValue(mdl);    //нужно получить ID из базы данных
+            }
+        });
+
+        box.getChildren().add(button);
+    }
+
+    private void updateList(dialogableModelDB mdl){
+        list = mdl.getData();
+    }
+
+    private void createDateRow(Date val) {
+        DatePicker dp = new DatePicker();
+        Class<?> c = model.getClass();
+        //setValid(Validator.validate(f,c));
+        this.node = dp;
+        Instant instant = val.toInstant();
+        LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        dp.setValue(localDate);
+
+        dp.setOnHidden(new EventHandler<Event>(){
+            @Override
+            public void handle(Event event) {
+                try {
+                    LocalDate localDate = dp.getValue();
+                    java.util.Date date = new Date(localDate.getYear() - 1900, localDate.getMonthValue() - 1, localDate.getDayOfMonth() /*localDate.toEpochDay()*/);
+                    System.out.println(date);
+                    f.set(model,date);
+
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void createStrRow(String str) {
+        TextField tf = new TextField(str);
+        this.node = tf;
+            //Validation
+        setValid(Validator.validate(f,model));
+
+            //Text change event handler
+        tf.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent InputMethodEvent) {
+                    //Update field
+                try {
+                    f.set(model,tf.getText());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                    //Validation
+                String s = Validator.validate(f,model);
+                setValid(s);
+            }
+        });
+    }
+
+    private void setValid(String s){
+        if(s != null | s == ""){
+            validText.setText(s);
+            validText.setStyle("-fx-text-fill:red");
+            isValid = false;
+        }
+        else{
+            validText.setText("OK");
+            validText.setStyle("-fx-text-fill:green");
+            isValid = true;
+        }
+    }
 //    public Row(String name, Node node) {
 //        box = new HBox(spacing);
 //        this.name = name;
@@ -52,14 +247,14 @@ public class Row<T> {
 //        this.addRow(text, cb);
 //    }
 
-    public Row(String name, Node editor){
+   /* public Row(String name, Node editor){
         box = new HBox(spacing);
         //this.name = name;
         this.node = editor;
         Text text = new Text(name);
-        validator = new Label("");
+        validText = new Label("");
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(editor, validator);
+        vbox.getChildren().addAll(editor, validText);
         box.getChildren().addAll(text, vbox);
     }
     public Row(String name, Node editor,String fieldName){
@@ -86,17 +281,19 @@ public class Row<T> {
             @Override
             public void handle(KeyEvent InputMethodEvent) {
 
+
+
                 NotNull nnAnot = f.getAnnotation(NotNull.class);
                 if(f.isAnnotationPresent(NotNull.class)){
                     if (tf.getText().equals("")){
-                        validator.setText(nnAnot.message());
-                        validator.setStyle("-fx-text-fill:red");
-                        validationOk = false;
+                        validText.setText(nnAnot.message());
+                        validText.setStyle("-fx-text-fill:red");
+                        isValid = false;
                     }
                     else{
-                        validator.setText("");
-                        validator.setStyle("-fx-text-fill:green");
-                        validationOk = true;
+                        validText.setText("");
+                        validText.setStyle("-fx-text-fill:green");
+                        isValid = true;
                     }
                     //ButOK_chackDisable();
                 }
@@ -154,18 +351,18 @@ public class Row<T> {
 //                    }
 //                }
 //                tf.setText(s);
-                validator.setStyle("-fx-text-fill:green");
-                validator.setText("OK");
+                validText.setStyle("-fx-text-fill:green");
+                validText.setText("OK");
                 if(!isValidInt(tf.getText())){
-                    validator.setStyle("-fx-text-fill:red");
-                    validator.setText("Допустимы только целые числа");
+                    validText.setStyle("-fx-text-fill:red");
+                    validText.setText("Допустимы только целые числа");
                 }
 
                 NotNull nnAnot = f.getAnnotation(NotNull.class);
                 if(f.isAnnotationPresent(NotNull.class)) {
                     if (tf.getText().equals("")) {
-                        validator.setStyle("-fx-text-fill:red");
-                        validator.setText(nnAnot.message());
+                        validText.setStyle("-fx-text-fill:red");
+                        validText.setText(nnAnot.message());
                     }
 
                     //ButOK_chackDisable();
@@ -185,6 +382,7 @@ public class Row<T> {
 //    private void addRow(Node name, Node editor){
 //        box.getChildren().addAll(name, editor);
 //    }
+*/
 
     public Node getNode() {
         return node;
@@ -192,36 +390,16 @@ public class Row<T> {
     public Pane getBox() {
         return box;
     }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Field getF() {
         return f;
     }
-
     public void setF(Field f) {
         this.f = f;
     }
-
-    public boolean isValidationOk() {
-        return validationOk;
+    public boolean isValid() {
+        return isValid;
     }
-
-    public void setValidationOk(boolean validationOk) {
-        this.validationOk = validationOk;
+    public void setModel(T model) {
+        this.model = model;
     }
 }

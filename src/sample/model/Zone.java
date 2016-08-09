@@ -13,8 +13,10 @@ import java.util.HashMap;
 @Table(title = "Зона", table = "Zone")
 public class Zone extends dialogableModelDB {
     @Column(title = "Позиция", column = "position")
+    @NotNull(message = "Введите позицию")
     public String position;
     @Column(title = "Название", column = "name")
+    @NotNull(message = "Введите название зоны")
     public String name;
     @Column(title = "Примечание", column = "note")
     public String note;
@@ -60,8 +62,8 @@ public class Zone extends dialogableModelDB {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT * " +
-                            "FROM troubleshooting.zone " /*+
-                            "where id = 1;"*/
+                    "FROM troubleshooting.zone " +
+                    " order by position "
             );
             while (resultSet.next()) {
                 list.add(
@@ -99,8 +101,8 @@ public class Zone extends dialogableModelDB {
     @Override
     public void delete(){
         if(SubZone.get(this) != null){
-            ObservableList<SubZone> sz =  SubZone.getDataFiltered(this);
-            if(sz != null) return;
+            ObservableList<SubZone> list =  SubZone.getDataFiltered(this);
+            if(list.size() > 0) return;
             //if(sz.size() > 0) return;
             super.delete();
 //            try{
@@ -161,5 +163,9 @@ public class Zone extends dialogableModelDB {
     }
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Zone createNew() {
+        return new Zone();
     }
 }

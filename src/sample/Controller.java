@@ -479,6 +479,7 @@ public class Controller {
     @FXML void But_EquipmentInsert_Tap(){
         Equipment i= new Equipment();
         Equipment it = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue();
+        i = (Equipment)it.clone();
         i.setSubZone(it.getSubZone());
         EditDialog<Equipment> E = new EditDialog<Equipment>(i);
         if(E.getRet()) {
@@ -539,21 +540,21 @@ public class Controller {
 
         //передаем переменные в диалоговое окно по ссылке
 
-        SubZone subZone = new SubZone(0,"prepress", "2311", "for air deleting",1);
-        EditDialog<SubZone> dialog2 = new EditDialog<SubZone>("Редактирование зоны", subZone);
-        System.out.println(subZone.getName() + subZone.getNote() + subZone.getZone());
-
-        Zone zone2 = new Zone(0,"PU020","Подача древесины","Из-под силосов до мойки щепы");
-        EditDialog<Zone> dialog3 = new EditDialog<Zone>("Редактирование зоны", zone2);
-        System.out.println(zone2.getPosition() + zone2.getName() + zone2.getNote());
-
-        PLC plc = new PLC(0,"plc050", "none");
-        EditDialog<PLC> dialog4 = new EditDialog<PLC>("Редактирование PLC", plc);
-        System.out.println(plc.getName() + plc.getPassword());
-
-        Engineer e = new Engineer(0,"Ruslan", "Galitckiy", "C");
-        EditDialog<Engineer> dialog5 = new EditDialog<Engineer>("Редактирование Инженера", e);
-        System.out.println(e.getLastName() + e.getFirstName() + e.getShift());
+//        SubZone subZone = new SubZone(0,"prepress", "2311", "for air deleting",1);
+//        EditDialog<SubZone> dialog2 = new EditDialog<SubZone>("Редактирование зоны", subZone);
+//        System.out.println(subZone.getName() + subZone.getNote() + subZone.getZone());
+//
+//        Zone zone2 = new Zone(0,"PU020","Подача древесины","Из-под силосов до мойки щепы");
+//        EditDialog<Zone> dialog3 = new EditDialog<Zone>("Редактирование зоны", zone2);
+//        System.out.println(zone2.getPosition() + zone2.getName() + zone2.getNote());
+//
+//        PLC plc = new PLC(0,"plc050", "none");
+//        EditDialog<PLC> dialog4 = new EditDialog<PLC>("Редактирование PLC", plc);
+//        System.out.println(plc.getName() + plc.getPassword());
+//
+//        Engineer e = new Engineer(0,"Ruslan", "Galitckiy", "C");
+//        EditDialog<Engineer> dialog5 = new EditDialog<Engineer>("Редактирование Инженера", e);
+//        System.out.println(e.getLastName() + e.getFirstName() + e.getShift());
     }
 
 
@@ -574,12 +575,12 @@ public class Controller {
     }
     @FXML private void MI_subzoneDel_Tap(){
         SubZone subZone = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue().getSubZone();
-        if(subZone == null) return;
-        //Main.showSubZoneEditDialog(subZone, zoneList);
-        EditDialog E = new EditDialog(subZone);
-        subZone.insert();
-        subzoneUpdateList();
-        zoneTreeUpdate();
+        if(subZone != null){
+            //Main.showSubZoneEditDialog(subZone, zoneList);
+            subZone.delete();
+            subzoneUpdateList();
+            zoneTreeUpdate();
+        }
     }
     @FXML private void MI_subzoneAdd_Tap(){
 //        SubZone subZone = new SubZone();
@@ -762,6 +763,8 @@ public class Controller {
         Zone zone = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue().getSubZone().getZone();
         if(zone != null) {
             zone.delete();
+            zoneUpdateList();
+            zoneTreeUpdate();
         }
         else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -770,8 +773,7 @@ public class Controller {
             alert.setContentText("Выберите зону!");
             alert.showAndWait();
         }
-        zoneUpdateList();
-        zoneTreeUpdate();
+
     }
     @FXML void But_ZoneAdd_Tap(){
         //Zone zone = new Zone(0, TW_Zone_pos.getText(), TW_Zone_name.getText(), TW_Zone_note.getText());
@@ -1080,7 +1082,7 @@ public class Controller {
                 TW_ForceNote.getText(),
                 engList,plcList,iniciatorList);
 
-        EditDialog<Force> d = new EditDialog<Force>("добавление блокировки", force);
+        EditDialog<Force> d = new EditDialog<Force>(force);
         force.insert();
         forceUpdateList();
     }
@@ -1098,7 +1100,7 @@ public class Controller {
             force.setAdress(TW_ForseAddr.getText());
             force.setNote(TW_ForceNote.getText());
 
-            EditDialog<Force> d = new EditDialog<Force>("редактирование блокировки", force);
+            EditDialog<Force> d = new EditDialog<Force>(force);
             force.update();
         }
 

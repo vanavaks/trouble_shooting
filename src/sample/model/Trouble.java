@@ -87,6 +87,7 @@ public class Trouble extends dialogableModelDB {
         if(equipment != null) {
             query += " WHERE `subZone_id`=" + equipment.getId();
         }
+        query += " order by date";
         try{
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery( query );

@@ -25,9 +25,9 @@ public class PLC extends dialogableModelDB {
         this.name = new SimpleStringProperty(name);
         this.password = new SimpleStringProperty(password);
 
-        varMap = new HashMap<String, Object>();
-        super.varMap.put(nameTitle,name);
-        super.varMap.put(passTitle,password);
+//        varMap = new HashMap<String, Object>();
+//        super.varMap.put(nameTitle,name);
+//        super.varMap.put(passTitle,password);
     }
     public PLC() {
         this(0,"","");
@@ -200,8 +200,8 @@ public class PLC extends dialogableModelDB {
     @Override public String toString(){
         return name.get();
     }
-      public void updateFromMap() {
-        this.setName((String)this.varMap.get(nameTitle));
-        this.setPassword((String)this.varMap.get(passTitle));
-    }
+//      public void updateFromMap() {
+//        this.setName((String)this.varMap.get(nameTitle));
+//        this.setPassword((String)this.varMap.get(passTitle));
+//    }
 }
