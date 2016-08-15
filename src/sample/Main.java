@@ -14,12 +14,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.dialogs.PLCEdit_Controller;
-import sample.dialogs.SubZoneEditController;
-import sample.dialogs.ZoneAdd_Controller;
+//import sample.dialogs.PLCEdit_Controller;
+//import sample.dialogs.SubZoneEditController;
+//import sample.dialogs.ZoneAdd_Controller;
 import sample.model.PLC;
 import sample.model.SubZone;
 import sample.model.Zone;
+import sample.dialogs.*;
 
 import java.io.IOException;
 
@@ -133,8 +134,37 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-}
 
+
+    public static void showSQLConfig_dialog() {
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("dialogs/DB_configDialog.FXML"));
+            //GridPane page = (GridPane)loader.load();
+            GridPane page = loader.load();
+
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Конфигурация MySQL подключения");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Передаём адресата в контроллер.
+
+            DBconfigController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
    /* static void showModeledDialog(){
         String FXML = "dialogs/SubZoneEditDialog.FXML";
         String title = "Редактирование Подзоны";

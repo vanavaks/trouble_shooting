@@ -99,12 +99,12 @@ public class Zone extends dialogableModelDB {
 //    }
 
     @Override
-    public void delete(){
+    public boolean delete(){
         if(SubZone.get(this) != null){
             ObservableList<SubZone> list =  SubZone.getDataFiltered(this);
-            if(list.size() > 0) return;
+            if(list.size() > 0) return false;
             //if(sz.size() > 0) return;
-            super.delete();
+            return super.delete();
 //            try{
 //                PreparedStatement ps = getConnection().prepareStatement(
 //                        "DELETE FROM `troubleshooting`.`zone`" +
@@ -118,6 +118,7 @@ public class Zone extends dialogableModelDB {
 //                e.printStackTrace();
 //            }
         }
+        return false;
     }
 //    public void update(){
 //        try {

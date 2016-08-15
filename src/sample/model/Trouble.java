@@ -29,10 +29,12 @@ public class Trouble extends dialogableModelDB {
     public String actions;
     @Column(title = "Ремонт на остановке", column = "PPR")
     public Boolean ppr;
-     @Column(title = "Kоличество", column = "number")
+    @Column(title = "Kоличество", column = "number")
     public Integer number;
+    @Column(title = "Инженер", column = "engineer_id")
+    public Engineer engineer;
 
-    public Trouble(Integer id, Date date, String note, String reason, int equipment_id, String actions, Boolean ppr, Integer number) {
+    public Trouble(Integer id, Date date, String note, String reason, int equipment_id, String actions, Boolean ppr, Integer number,int engineer_id) {
         super.setId(id);
         this.date = new java.util.Date(date.getTime());
         this.note = note;
@@ -41,9 +43,10 @@ public class Trouble extends dialogableModelDB {
         this.actions = actions;
         this.ppr = ppr;
         this.number = number;
+        this.engineer = Engineer.get(engineer_id);
     }
     public Trouble(){
-        this(0,new Date(),"","",0,"",false,1);
+        this(0,new Date(),"","",0,"",false,1,0);
     }
 
 //    @Column(title = "Неисправный узел", column = "instrument_id")
@@ -54,9 +57,9 @@ public class Trouble extends dialogableModelDB {
 //    private String Fault;
 
     public ObservableList<Trouble> getData(){
-        return getDataFiltered(null);
+        return getDataFiltered(null,null);
     }
-    public Trouble get(int id){
+    public static Trouble get(int id){
         String query =  "SELECT * " +
                 "FROM troubleshooting.trouble " +
                 "WHERE `id`=" + id;
@@ -71,7 +74,8 @@ public class Trouble extends dialogableModelDB {
                         resultSet.getInt("equipment_id"),
                         resultSet.getNString("actions"),
                         resultSet.getBoolean("PPR"),
-                        resultSet.getInt("number")
+                        resultSet.getInt("number"),
+                        resultSet.getInt("engineer_id")
                         );
             }
         }
@@ -80,14 +84,22 @@ public class Trouble extends dialogableModelDB {
         }
         return null;
     }
-    public static ObservableList<Trouble> getDataFiltered(Equipment equipment){
+    public static ObservableList<Trouble> getDataFiltered(Equipment equipment,Engineer engineer){
         ObservableList<Trouble> list = FXCollections.observableArrayList();
         String query =  "SELECT * " +
                 "FROM troubleshooting.trouble ";
         if(equipment != null) {
-            query += " WHERE `subZone_id`=" + equipment.getId();
+            query += " WHERE `equipment_Id`=" + equipment.getId();
+            if(engineer != null){
+                query += " , `engineer_id`=" + engineer.getId();
+            }
         }
+        else if(engineer != null){
+            query += " WHERE `engineer_id`=" + engineer.getId();
+        }
+
         query += " order by date";
+        System.out.println(query);
         try{
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery( query );
@@ -101,7 +113,8 @@ public class Trouble extends dialogableModelDB {
                                 resultSet.getInt("equipment_Id"),
                                 resultSet.getString("actions"),
                                 resultSet.getBoolean("PPR"),
-                                resultSet.getInt("number")
+                                resultSet.getInt("number"),
+                                resultSet.getInt("engineer_id")
                         )
                 );
             }
@@ -110,6 +123,20 @@ public class Trouble extends dialogableModelDB {
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public boolean delete(){
+        ObservableList list = Force.getDataFiltered(this);
+        if(list.size() == 0){
+            return super.delete();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString(){
+        return getDate().toString() + " " + note + " " + getEquipment().toString();
     }
 
     public Date getDate() {
@@ -147,5 +174,21 @@ public class Trouble extends dialogableModelDB {
     }
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Engineer getEngineer() {
+        return engineer;
+    }
+
+    public void setEngineer(Engineer engineer) {
+        this.engineer = engineer;
+    }
+
+    public Boolean getPpr() {
+        return ppr;
+    }
+
+    public void setPpr(Boolean ppr) {
+        this.ppr = ppr;
     }
 }

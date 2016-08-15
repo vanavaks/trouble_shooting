@@ -36,6 +36,8 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
 //        //Function update model from map
 //    public dialogableModelDB(){varMap = new HashMap<String, Object>();}
 
+    private int id = 0;
+
     @Override
     public Object clone(){
         try {
@@ -278,7 +280,7 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
         //return 0;
     }
     @Override
-    public void delete(){
+    public boolean delete(){
         Class<?> c = this.getClass();
         if(c.getFields() != null) {
             try {
@@ -290,10 +292,12 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
                 //ps.setString(1, table.table());
                 ps.setInt(1, this.getId());
                 ps.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
     public static List<Field> getEditedFields(dialogableModelDB o) {
         List<Field> fieldList = null;
@@ -307,6 +311,19 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
         return fieldList;
     }
 
+    public String getModelName(){
+        try {
+            Class<?> c = this.getClass();
+            Table table = c.getAnnotation(Table.class);
+            return table.title();
+        } catch (Exception e) {
+            System.out.println("Не найдена аннотация Table");
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public abstract String toString();
 //        try {
 
 //            EditedFields F = c.getAnnotation(EditedFields.class);
@@ -348,6 +365,14 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
 //            return false;
 //        }
 //    }
+
+    //public abstract dialogableModelDB getTest();
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 
 

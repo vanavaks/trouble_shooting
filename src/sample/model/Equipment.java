@@ -154,10 +154,11 @@ public class Equipment extends dialogableModelDB{
         }
         return null;
     }
-    public void delete(){
-        if(Trouble.getDataFiltered(this).size() == 0){
-            super.delete();
+    public boolean delete(){
+        if(Trouble.getDataFiltered(this, null).size() == 0){
+            return super.delete();
         }
+        return false;
     }
 
     public String toString(){

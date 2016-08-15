@@ -270,11 +270,12 @@ public class SubZone extends dialogableModelDB {
 //        }
 //    }
 
-    public void delete(){
+    public boolean delete(){
         ObservableList<Equipment> list = Equipment.getDataFiltered(this,null);
         if(list.size() == 0){
-            super.delete();
+            return super.delete();
         }
+        return false;
     }
 
     public static SubZone createNew() {

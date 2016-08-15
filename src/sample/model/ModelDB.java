@@ -2,6 +2,9 @@ package sample.model;
 
 import javafx.collections.ObservableList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,8 +13,10 @@ import java.util.Map;
 /**
  * Created by Иван on 12.07.2016.
  */
-public abstract class ModelDB<model> {
-    private int id = 0;
+
+
+public abstract class ModelDB {
+
     private static Connection connection;
     protected static Connection getConnection() {
         return connection;
@@ -22,7 +27,9 @@ public abstract class ModelDB<model> {
 
     //public abstract ObservableList getData();
     //public static  model get(int id){return new model};
-    public abstract void delete();
+
+
+    public abstract boolean delete();
     public int delete(String table, int id){
         try {
             //DELETE FROM `troubleshooting`.`forse` WHERE `id`='3';
@@ -41,12 +48,8 @@ public abstract class ModelDB<model> {
     public abstract void update();
     public abstract void insert();
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+
+
 
 //    protected Map<String, Object> varMap;
 //    public abstract void updateFromMap();

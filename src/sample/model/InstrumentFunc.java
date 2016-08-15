@@ -29,11 +29,11 @@ public class InstrumentFunc extends dialogableModelDB {
     }
 
     @Override
-    public void delete(){
+    public boolean delete(){
             ObservableList<Instrument> i =  Instrument.getDataFiltered(this,null);
-            if(i.size() != 0) return;
+            if(i.size() != 0) return false;
             //if(sz.size() > 0) return;
-            super.delete();
+            return super.delete();
     }
     public InstrumentFunc(String name, String note) {
         this(0,name,note);

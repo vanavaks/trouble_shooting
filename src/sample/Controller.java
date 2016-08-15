@@ -4,8 +4,7 @@ package sample;
 import java.io.File;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.time.LocalDate;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -21,10 +20,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.stage.FileChooser;
+import sample.XML_parser.JaxbParser;
+import sample.XML_parser.Jaxb_Aplic;
 import sample.model.*;
 import javafx.scene.image.*;
-import java.util.Date;
-import java.util.TreeMap;
+
+import javax.xml.bind.JAXBException;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -53,20 +54,20 @@ public class Controller {
 
 
     //Zone Tab
-    @FXML TableView <Zone> ZoneTable;
+//    @FXML TableView <Zone> ZoneTable;
 
     //@FXML TableColumn<Zone,Integer> ZoneIdColumn;
-    @FXML TableColumn<Zone,String>  ZoneNameColumn;
-    @FXML TableColumn<Zone,String>  ZonePosColumn;
-    @FXML TableColumn<Zone,String>  ZoneNoteColumn;
+//    @FXML TableColumn<Zone,String>  ZoneNameColumn;
+//    @FXML TableColumn<Zone,String>  ZonePosColumn;
+//    @FXML TableColumn<Zone,String>  ZoneNoteColumn;
 
-    @FXML TextField TW_Zone_pos;
-    @FXML TextField TW_Zone_name;
-    @FXML TextField TW_Zone_note;
-
-    @FXML Button But_ZoneAdd;
-    @FXML Button But_ZoneDel;
-    @FXML Button But_ZoneUpdate;
+//    @FXML TextField TW_Zone_pos;
+//    @FXML TextField TW_Zone_name;
+//    @FXML TextField TW_Zone_note;
+//
+//    @FXML Button But_ZoneAdd;
+//    @FXML Button But_ZoneDel;
+//    @FXML Button But_ZoneUpdate;
 
     //Forse Tab
     @FXML TableView<Force> ForseTable;
@@ -77,6 +78,7 @@ public class Controller {
     @FXML TableColumn<Force,PLC>  ForcPLC;
     @FXML TableColumn<Force,String>  ForcAdress;
     @FXML TableColumn<Force,String>  ForcNote;
+
 
     @FXML ComboBox<PLC> CombPLC;
     @FXML ComboBox<Engineer> CombEngineer;
@@ -137,41 +139,107 @@ public class Controller {
     @FXML Button But_ImageDel;
 
     // Troubles
-    @FXML ContextMenu CMenu_TrblZone;
-    @FXML MenuItem CMenu_TrblZoneAdd;
-    @FXML Button But_newForce;
-    @FXML Button But_TroubleDelete;
-    @FXML Button But_TroubleInsert;
-    @FXML Button But_TroubleUpdate;
+//    @FXML ContextMenu CMenu_TrblZone;
+//    @FXML MenuItem CMenu_TrblZoneAdd;
+//    @FXML Button But_newForce;
+//    @FXML Button But_TroubleDelete;
+//    @FXML Button But_TroubleInsert;
+//    @FXML Button But_TroubleUpdate;
 
     // Subzone
-    @FXML TableView<SubZone> subzoneTableview;
-    @FXML MenuItem MI_subzoneDel;
-    @FXML MenuItem MI_subzoneAdd;
-    @FXML MenuItem MI_subzoneUpdate;
-    @FXML TableColumn<SubZone, String> subzoneTableName;
-    @FXML TableColumn<SubZone, String> subzoneTableZone;
-    @FXML TableColumn<SubZone, String> subzoneTableNote;
+//    @FXML TableView<SubZone> subzoneTableview;
+//    @FXML MenuItem MI_subzoneDel;
+//    @FXML MenuItem MI_subzoneAdd;
+//    @FXML MenuItem MI_subzoneUpdate;
+//    @FXML TableColumn<SubZone, String> subzoneTableName;
+//    @FXML TableColumn<SubZone, String> subzoneTableZone;
+//    @FXML TableColumn<SubZone, String> subzoneTableNote;
 
     @FXML public void initialize(){
-        connection = new MySQLConnection();
-        connection.establishConnection();
+//        try {
+//            JaxbParser parser = new JaxbParser();
+//            File dir1 = new File("D://SomeDir");
+//            File file = new File(dir1, "config.xml");
+//            connection = (MySQLConnection)parser.getObject(file,MySQLConnection.class);
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//            connection = new MySQLConnection();
+//        }
+//        try {
+//            connection.establishConnection();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            imageInit();
+//            engneerInit();
+//            forceInit();
+//            plcInit();
+//            zoneInit();
+//            iniciatorInit();
+//            subzoneInit();
+//            ManufacturerInit();
+//            InstrumentFuncInit();
+//            InstrumentInit();
+//            EquipmentInit();
+//            zoneTree();
+//            instrumentsTree();
+//            troubleInit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        imageInit();
-        engneerInit();
-        forceInit();
-        plcInit();
-        zoneInit();
-        iniciatorInit();
-        subzoneInit();
-        ManufacturerInit();
-        InstrumentFuncInit();
-        InstrumentInit();
-        EquipmentInit();
-        zoneTree();
-        instrumentsTree();
-        troubleInit();
-     }
+        if(DBconnect()){
+            DBreadDatas();
+        }
+    }
+
+
+
+    private boolean DBconnect(){
+        try {
+            JaxbParser parser = new JaxbParser();
+            File dir1 = new File("D://SomeDir");
+            File file = new File(dir1, "config.xml");
+            connection = (MySQLConnection)parser.getObject(file,MySQLConnection.class);
+            connection.establishConnection();
+            return true;
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            connection = new MySQLConnection();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void DBreadDatas(){
+        try {
+            imageInit();
+            engneerInit();
+            forceInit();
+            plcInit();
+            zoneInit();
+            iniciatorInit();
+            subzoneInit();
+            ManufacturerInit();
+            InstrumentFuncInit();
+            InstrumentInit();
+            EquipmentInit();
+            zoneTree();
+            instrumentsTree();
+            troubleInit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSqlConfigXML()throws Exception{
+        JaxbParser parser = new JaxbParser();
+        File file = new File("config.xml");
+        parser.saveObject(file,connection);
+    }
 
     //Manufacturer
     public ObservableList<Manufacturer> manufacturerList;
@@ -561,16 +629,16 @@ public class Controller {
     //================Subzone========================================
     private void subzoneInit(){
         SubZone.setConnection(connection.getConnection());
-        subzoneTableName.setCellValueFactory(new PropertyValueFactory<SubZone,String>("name"));
-        subzoneTableZone.setCellValueFactory(new PropertyValueFactory<SubZone,String>("zoneName"));
-        subzoneTableNote.setCellValueFactory(new PropertyValueFactory<SubZone,String>("note"));
+//        subzoneTableName.setCellValueFactory(new PropertyValueFactory<SubZone,String>("name"));
+//        subzoneTableZone.setCellValueFactory(new PropertyValueFactory<SubZone,String>("zoneName"));
+//        subzoneTableNote.setCellValueFactory(new PropertyValueFactory<SubZone,String>("note"));
 
         subzoneUpdateList();
 
     }
     private void subzoneUpdateList(){
         subZoneList = new SubZone().getData();
-        subzoneTableview.setItems(subZoneList);
+        //subzoneTableview.setItems(subZoneList);
         //zoneTreeUpdate();
     }
     @FXML private void MI_subzoneDel_Tap(){
@@ -622,8 +690,8 @@ public class Controller {
     }
     private void iniciatorShowDetails(Iniciator iniciator){
         if(iniciator != null) {
-            TW_iniciatorName.setText(iniciator.getName());
-            TW_iniciatorNote.setText(iniciator.getNote());
+            //TW_iniciatorName.setText(iniciator.getName());
+            //TW_iniciatorNote.setText(iniciator.getNote());
             But_iniciatorUpdate.setDisable(false);
             But_iniciatorDel.setDisable(false);
         }
@@ -637,23 +705,25 @@ public class Controller {
     }
     @FXML void But_InicDel_Tap(){
         Iniciator initiator = iniciatorTableView.getSelectionModel().selectedItemProperty().getValue();
-        if (initiator != null){
-            initiator.delete();
+        if(DeleteDialog(initiator)){
             iniciatorUpdateList();
         }
     }
+
     @FXML void But_InicAdd_Tap(){
-        String name = TW_iniciatorName.getText();
-        String note = TW_iniciatorNote.getText();
-        Iniciator iniciator = new Iniciator(0, name, note);
+        Iniciator iniciator = new Iniciator();
+        EditDialog E = new EditDialog(iniciator);
         iniciator.insert();
         iniciatorUpdateList();
     }
     @FXML void But_InicUpdate_Tap(){
         Iniciator initiator = iniciatorTableView.getSelectionModel().selectedItemProperty().getValue();
-        if (initiator != null) {
-            initiator.setName(TW_iniciatorName.getText());
-            initiator.setNote(TW_iniciatorNote.getText());
+        if (initiator == null) {
+            AlertInfo("Выберите " + "Строку" + "для редактирования");
+            return;
+        }
+        EditDialog E = new EditDialog(initiator);
+        if(E.getRet()) {
             initiator.update();
             iniciatorUpdateList();
         }
@@ -675,9 +745,6 @@ public class Controller {
     }
     private void plcShowDetails(PLC plc){
         if(plc != null){
-            TW_PLCLabel.setText(plc.getName());
-            TW_PLCPass.setText(plc.getPassword());
-
             But_PLCDel.setDisable(false);
             But_PLCUpdate.setDisable(false);
         }
@@ -692,25 +759,33 @@ public class Controller {
     }
     @FXML void But_PLCDel_Tap(){
         PLC plc = plcTable.getSelectionModel().selectedItemProperty().getValue();
-        plc.delete();
-        plcUpdateList();
+        if(DeleteDialog(plc)){
+            plcUpdateList();
+        }
+
     }
     @FXML void But_PLCAdd_Tap(){
-        int id = 0;
-        String plcLabel = TW_PLCLabel.getText();
-        String plcPass = TW_PLCPass.getText();
-        PLC plc = new PLC(id,plcLabel,plcPass);
-        plc.insert();
-        plcUpdateList();
+//        int id = 0;
+//        String plcLabel = TW_PLCLabel.getText();
+//        String plcPass = TW_PLCPass.getText();
+        PLC plc = new PLC();
+        EditDialog E = new EditDialog(plc);
+        if(E.getRet()) {
+            plc.insert();
+            plcUpdateList();
+        }
     }
     @FXML void But_PLCUpdate_Tap(){
         PLC plc = plcTable.getSelectionModel().selectedItemProperty().getValue();
-        if (plc != null) {
-            plc.setName(TW_PLCLabel.getText());
-            plc.setPassword(TW_PLCPass.getText());
-            plc.update();
+        if (plc == null) {
+            AlertInfo("Выберите " + "Строку" + "для редактирования");
+            return;
         }
-        plcUpdateList();
+        EditDialog E = new EditDialog(plc);
+        if (E.getRet()) {
+            plc.update();
+            plcUpdateList();
+        }
     }
     @FXML void MI_AddPLC_Tap(){
         PLC plc = new PLC(0,"","");
@@ -731,30 +806,30 @@ public class Controller {
     private void zoneInit(){
         //Zone initialization
         Zone.setConnection(connection.getConnection());
-        ZoneNameColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("name"));
-        ZonePosColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("position"));
-        ZoneNoteColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("Note"));
+//        ZoneNameColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("name"));
+//        ZonePosColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("position"));
+//        ZoneNoteColumn.setCellValueFactory(new PropertyValueFactory<Zone,String>("Note"));
 
         zoneUpdateList();
 
-        ZoneTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> zoneShowDetails(newValue));
-        But_ZoneDel.setDisable(true);
-        But_ZoneUpdate.setDisable(true);
+//        ZoneTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> zoneShowDetails(newValue));
+//        But_ZoneDel.setDisable(true);
+   //     But_ZoneUpdate.setDisable(true);
     }
     private void zoneShowDetails(Zone zone){
         if(zone != null){
-            TW_Zone_name.setText(zone.getName());
-            TW_Zone_pos.setText(zone.getPosition());
-            TW_Zone_note.setText(zone.getNote());
+//            TW_Zone_name.setText(zone.getName());
+//            TW_Zone_pos.setText(zone.getPosition());
+//            TW_Zone_note.setText(zone.getNote());
 
-            But_ZoneDel.setDisable(false);
-            But_ZoneUpdate.setDisable(false);
+         //   But_ZoneDel.setDisable(false);
+         //   But_ZoneUpdate.setDisable(false);
         }
     }
     private void zoneUpdateList(){
         Zone z = new Zone();
         zoneList = z.getData();
-        ZoneTable.setItems(zoneList);
+//        ZoneTable.setItems(zoneList);
         //zoneTreeUpdate();
         //zoneList.stream().forEach((zone) -> {zoneTreeItem.getChildren().add(new TreeItem<>(zone));});
     }
@@ -960,10 +1035,6 @@ public class Controller {
     }
     private void engineerShowDetail(Engineer eng){
         if(eng != null){
-            TW_EngName.setText(eng.getFirstName());
-            TW_EngLastName.setText(eng.getLastName());
-            TW_EngShift.setText(eng.getShift());
-
             But_EngDel.setDisable(false);
             But_EngUpdate.setDisable(false);
         }
@@ -977,42 +1048,42 @@ public class Controller {
     }
     @FXML void But_EngDel_Tap(){
         Engineer eng = EngTable.getSelectionModel().selectedItemProperty().getValue();
-        if(eng != null){
-            eng.delete();
+        if(DeleteDialog(eng)){
             engineerUpdateList();
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Выберите строку перед удалением");
-            alert.showAndWait();
         }
     }
     @FXML void But_EngAdd_Tap(){
-        Engineer engineer = new Engineer(0,TW_EngName.getText(), TW_EngLastName.getText(), TW_EngShift.getText());
-        engineer.insert();
-        engineerUpdateList();
+        Engineer engineer = new Engineer();
+        EditDialog E= new EditDialog(engineer);
+        if(E.getRet()){
+            engineer.insert();
+            engineerUpdateList();
+        }
+
     }
     @FXML void But_EngUpdate_Tap(){
         Engineer eng = EngTable.getSelectionModel().selectedItemProperty().getValue();
-        if(eng != null){
-            eng.setFirstName(TW_EngName.getText());
-            eng.setLastName(TW_EngLastName.getText());
-            eng.setShift(TW_EngShift.getText());
+        if(eng == null){
+            AlertInfo("Выберите строку");
+            return;
+        }
+        EditDialog E = new EditDialog(eng);
+        if(E.getRet()){
             eng.update();
             engineerUpdateList();
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Выберите строку перед удалением");
-            alert.showAndWait();
         }
     }
 
     //==================Force Metods==========================
+    @FXML Label Lab_forceEng;
+    @FXML Label Lab_forceDate;
+    @FXML Label Lab_forcePLC;
+    @FXML Label Lab_forceAdr;
+    @FXML Label Lab_forceInic;
+    @FXML Label Lab_forceNote;
+    @FXML Label Lab_forceStatus;
+
+
     private void forceInit(){
         Force.setConnection(connection.getConnection());
         ForcEngName.setCellValueFactory(new PropertyValueFactory<Force,Engineer>("engineer"));
@@ -1023,6 +1094,7 @@ public class Controller {
         ForcAdress.setCellValueFactory(new PropertyValueFactory<Force,String>("adress"));
         ForcNote.setCellValueFactory(new PropertyValueFactory<Force,String>("note"));
         ForcIniciatorName.setCellValueFactory(new PropertyValueFactory<Force,Iniciator>("iniciator"));
+
 
         forceUpdateList();
 //        forceList =Force.getForces();
@@ -1055,17 +1127,20 @@ public class Controller {
     }
     @FXML void But_ForceDel_Tap(){
         Force force = ForseTable.getSelectionModel().selectedItemProperty().getValue();
-        if(force != null){
-            force.delete();
+        if(DeleteDialog(force)){
             forceUpdateList();
         }
-        else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Предупреждение");
-            alert.setHeaderText(null);
-            alert.setContentText("Выберите строку перед удалением");
-            alert.showAndWait();
-        }
+//
+//        if(force != null){
+//            force.delete();
+//        }
+//        else {
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Предупреждение");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Выберите строку перед удалением");
+//            alert.showAndWait();
+//        }
     }
     @FXML void But_ForceAdd_Tap(){
         LocalDate localDate = DatPicker_ForceDate.getValue();
@@ -1085,6 +1160,48 @@ public class Controller {
         EditDialog<Force> d = new EditDialog<Force>(force);
         force.insert();
         forceUpdateList();
+    }
+    @FXML void MI_ForceAdd_Tap(){
+        Trouble t = troubleTable.getSelectionModel().getSelectedItem();
+
+        if(t != null) {
+            Force f = new Force();
+            f.setTrouble(t);
+            EditDialog E = new EditDialog(f);
+            if (E.getRet()) {
+                f.insert();
+                forceUpdateList();
+                troubleUpdateList();
+            }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText(null);
+            alert.setContentText("Выберите строку");
+            alert.showAndWait();
+        }
+    }
+    @FXML void MI_TroubleForceEdit_Tap(){
+        Force f = TroubleForseTable.getSelectionModel().getSelectedItem();
+        if(f != null){
+            EditDialog E = new EditDialog(f);
+            if(E.getRet()){
+                f.update();
+                Trouble t = troubleTable.getSelectionModel().getSelectedItem();
+                if(t!=null) {
+                    troubleForcesList = Force.getDataFiltered(t);
+                    TroubleForseTable.setItems(troubleForcesList);
+                }
+            }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Предупреждение");
+            alert.setHeaderText(null);
+            alert.setContentText("Выберите строку Force");
+            alert.showAndWait();
+        }
     }
     @FXML void But_ForceUpdate_Tap(){
         LocalDate localDate = DatPicker_ForceDate.getValue();
@@ -1252,9 +1369,14 @@ public class Controller {
     }
 
     // Troubles metods
-    @FXML void CMenu_TrblZoneAdd_Tap(){
-        Main.showZoneEditDialog();
-    }
+
+    @FXML Label Lab_troubleZone;
+    @FXML Label Lab_troubleEquipment;
+    @FXML Label Lab_troubleNote;
+    @FXML Label Lab_troubleDate;
+    @FXML Label Lab_troubleReason;
+    @FXML Label Lab_troubleActions;
+    @FXML Label Lab_troubleEngineer;
 
     @FXML TableView<Trouble> troubleTable;
     @FXML TableColumn<Trouble,Equipment> troubleTable_Equipment;
@@ -1263,6 +1385,17 @@ public class Controller {
     @FXML TableColumn<Trouble,String> troubleTable_Reason;
     @FXML TableColumn<Trouble,String> troubleTable_Actions;
     @FXML TableColumn<Trouble,Boolean> troubleTable_PPR;
+    @FXML TableColumn<Trouble,Engineer> troubleTable_Eng;
+
+    private ObservableList troubleForcesList;
+    @FXML TableView<Force> TroubleForseTable;
+    @FXML TableColumn<Force,Engineer>  TroubleForcEngName;
+    @FXML TableColumn<Force,Iniciator>  TroubleForcIniciatorName;
+    @FXML TableColumn<Force,Date>    TroubleForcDate;
+    @FXML TableColumn<Force,PLC>  TroubleForcPLC;
+    @FXML TableColumn<Force,String>  TroubleForcAdress;
+    @FXML TableColumn<Force,String>  TroubleForcNote;
+
     private ObservableList<Trouble> troubleList;
 
     private void troubleInit(){
@@ -1272,12 +1405,52 @@ public class Controller {
         troubleTable_Reason.setCellValueFactory(new PropertyValueFactory<Trouble,String>("reason"));
         troubleTable_Actions.setCellValueFactory(new PropertyValueFactory<Trouble,String>("actions"));
         troubleTable_PPR.setCellValueFactory(new PropertyValueFactory<Trouble,Boolean>("ppr"));
+        troubleTable_Eng.setCellValueFactory(new PropertyValueFactory("engineer"));
 
+
+        TroubleForcEngName.setCellValueFactory(new PropertyValueFactory<Force,Engineer>("engineer"));
+        //TroubleForcDate.setCellValueFactory(new PropertyValueFactory<Force,Date>("date"));
+        TroubleForcPLC.setCellValueFactory(new PropertyValueFactory<Force,PLC>("plc"));
+        TroubleForcAdress.setCellValueFactory(new PropertyValueFactory<Force,String>("adress"));
+        TroubleForcNote.setCellValueFactory(new PropertyValueFactory<Force,String>("note"));
+        TroubleForcIniciatorName.setCellValueFactory(new PropertyValueFactory<Force,Iniciator>("iniciator"));
+
+        troubleTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> troubleShowDetails(newValue));
+        TroubleForseTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> troubleForseShowDetails(newValue));
         troubleUpdateList();
     }
     private void troubleUpdateList(){
         troubleList = new Trouble().getData();
         troubleTable.setItems(troubleList);
+    }
+
+    private void troubleForseShowDetails(Force force){
+        Lab_forceEng.setText(force.getTrouble().getEngineer().toString());
+        Lab_forceDate.setText(force.getDate().toString());
+        Lab_forcePLC.setText(force.getPlc().toString());
+        Lab_forceAdr.setText(force.getAdress());
+        Lab_forceInic.setText(force.getIniciator().toString());
+        Lab_forceNote.setText(force.getNote());
+        //Lab_forceStatus.setText(force.ge);
+    }
+
+
+
+    private void troubleShowDetails(Trouble trouble){
+        trouble = troubleTable.getSelectionModel().getSelectedItem();
+        if(trouble != null) {
+            troubleForcesList = Force.getDataFiltered(trouble);
+            TroubleForseTable.setItems(troubleForcesList);
+
+            Lab_troubleZone.setText(trouble.getEquipment().getSubZone().getZone().toString());
+            Lab_troubleEquipment.setText(trouble.getEquipment().toString());
+            Lab_troubleNote.setText(trouble.getNote());
+            Lab_troubleDate.setText(trouble.getDate().toString());
+            Lab_troubleReason.setText(trouble.getReason());
+            Lab_troubleActions.setText(trouble.getActions());
+            Lab_troubleEngineer.setText(trouble.getEngineer().toString());
+
+        }
     }
 
     @FXML void troubleAdd_Tap(){
@@ -1298,11 +1471,53 @@ public class Controller {
             troubleUpdateList();
         }
     }
+
     @FXML void troubleDelete_Tap(){
         Trouble t = troubleTable.getSelectionModel().getSelectedItem();
-        if(t == null) return;
-        t.delete();
-        troubleUpdateList();
+        if(DeleteDialog(t)){
+            troubleUpdateList();
+        }
+    }
+
+    private<T extends dialogableModelDB> boolean DeleteDialog(T model){
+        if(model == null){
+            AlertInfo("Выберите " + "строку " + "перед удалением");
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Удалить");
+
+            alert.setHeaderText("Подтвердите удаление " + model.getModelName());
+            alert.setContentText(model.toString());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                // ... user chose OK
+                model.delete();
+                return true;
+            } else {
+                // ... user chose CANCEL or closed the dialog
+
+            }
+        }
+        return false;
+    }
+
+
+
+    private void AlertInfo(String s){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Предупреждение");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
+    }
+
+    @FXML void But_SQL_config_Tap(){
+        Main.showSQLConfig_dialog();
+        if(DBconnect()){
+            DBreadDatas();
+        }
     }
 }
 

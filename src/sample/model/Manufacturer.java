@@ -81,7 +81,8 @@ public class Manufacturer extends dialogableModelDB {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT * " +
-                            "FROM troubleshooting.manufacturer "
+                            "FROM troubleshooting.manufacturer " +
+                            " order by name "
             );
             while (resultSet.next()) {
                 if(resultSet.getInt("id") == 0) continue;
@@ -100,11 +101,11 @@ public class Manufacturer extends dialogableModelDB {
         return list;
     }
     @Override
-    public void delete(){
+    public boolean delete(){
         ObservableList<Instrument> i =  Instrument.getDataFiltered(null, this);
-        if(i.size() != 0) return;
+        if(i.size() != 0) return false;
         //if(sz.size() > 0) return;
-        super.delete();
+        return super.delete();
     }
 
     public String getName() {

@@ -130,6 +130,13 @@ public class Instrument extends dialogableModelDB {
     return null;
 }
     @Override
+    public boolean delete(){
+        ObservableList<Equipment> list = Equipment.getDataFiltered(null,this);
+        if(list.size() > 0) return false;
+
+        return super.delete();
+    }
+    @Override
     public String toString(){
         return manufacturer + " " + name;
     }
