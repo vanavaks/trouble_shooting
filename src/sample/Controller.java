@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.util.*;
 import java.time.LocalDate;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,14 +18,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import sample.XML_parser.JaxbParser;
-import sample.XML_parser.Jaxb_Aplic;
 import sample.model.*;
 import javafx.scene.image.*;
 
 import javax.xml.bind.JAXBException;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 public class Controller {
     private ObservableList<Engineer> engList ;
@@ -37,6 +36,8 @@ public class Controller {
     private ObservableList<Iniciator> iniciatorList;
     private  ObservableList<ImageBlob> imageBlob;
     private ObservableList<SubZone> subZoneList;
+    private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
+
     //Engineer Tab
     @FXML TableView <Engineer> EngTable;
 
@@ -1418,6 +1419,7 @@ public class Controller {
         troubleTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> troubleShowDetails(newValue));
         TroubleForseTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> troubleForseShowDetails(newValue));
         troubleUpdateList();
+        InfoPane.getChildren().add(infoPane);
     }
     private void troubleUpdateList(){
         troubleList = new Trouble().getData();
@@ -1425,32 +1427,40 @@ public class Controller {
     }
 
     private void troubleForseShowDetails(Force force){
+        if(force == null) {log.warning("Force don't selected, null pointer"); return;}
         Lab_forceEng.setText(force.getTrouble().getEngineer().toString());
         Lab_forceDate.setText(force.getDate().toString());
         Lab_forcePLC.setText(force.getPlc().toString());
         Lab_forceAdr.setText(force.getAdress());
         Lab_forceInic.setText(force.getIniciator().toString());
         Lab_forceNote.setText(force.getNote());
-        //Lab_forceStatus.setText(force.ge);
+        infoPane.rebuild(force);
     }
 
+    @FXML
+    Pane InfoPane;
+    @FXML Button But_remove;
+    @FXML void But_remove_tap(){
+        infoPane.removeElements();
+    }
 
+    InfoPane infoPane = new InfoPane();
 
     private void troubleShowDetails(Trouble trouble){
         trouble = troubleTable.getSelectionModel().getSelectedItem();
-        if(trouble != null) {
-            troubleForcesList = Force.getDataFiltered(trouble);
-            TroubleForseTable.setItems(troubleForcesList);
+        if(trouble == null) return;
+        troubleForcesList = Force.getDataFiltered(trouble);
+        TroubleForseTable.setItems(troubleForcesList);
 
-            Lab_troubleZone.setText(trouble.getEquipment().getSubZone().getZone().toString());
-            Lab_troubleEquipment.setText(trouble.getEquipment().toString());
-            Lab_troubleNote.setText(trouble.getNote());
-            Lab_troubleDate.setText(trouble.getDate().toString());
-            Lab_troubleReason.setText(trouble.getReason());
-            Lab_troubleActions.setText(trouble.getActions());
-            Lab_troubleEngineer.setText(trouble.getEngineer().toString());
+        Lab_troubleZone.setText(trouble.getEquipment().getSubZone().getZone().toString());
+        Lab_troubleEquipment.setText(trouble.getEquipment().toString());
+        Lab_troubleNote.setText(trouble.getNote());
+        Lab_troubleDate.setText(trouble.getDate().toString());
+        Lab_troubleReason.setText(trouble.getReason());
+        Lab_troubleActions.setText(trouble.getActions());
+        Lab_troubleEngineer.setText(trouble.getEngineer().toString());
 
-        }
+        infoPane.rebuild(trouble);
     }
 
     @FXML void troubleAdd_Tap(){
@@ -1514,6 +1524,7 @@ public class Controller {
     }
 
     @FXML void But_SQL_config_Tap(){
+        AlertInfo("Sql dialog show");
         Main.showSQLConfig_dialog();
         if(DBconnect()){
             DBreadDatas();

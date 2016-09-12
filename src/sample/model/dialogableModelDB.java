@@ -1,42 +1,21 @@
 package sample.model;
 
 import javafx.collections.ObservableList;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by Иван on 12.07.2016.
+ * 22.08.2016 New edition: including logger
  */
-//@Retention(RetentionPolicy.RUNTIME)
-//@interface Column{
-//    String title();
-//    String column();
-//}
-//
-//@Retention(RetentionPolicy.RUNTIME)
-//@interface EditedFields {
-//    String[] value() default {};
-//}
-//
-//@Retention(RetentionPolicy.RUNTIME)
-//@interface Table {
-//    String title();
-//    String table();
-//}
 
 public abstract class dialogableModelDB extends ModelDB implements Cloneable {
-//    protected Map<String, Object> varMap;
-//        //Function update model from map
-//    public dialogableModelDB(){varMap = new HashMap<String, Object>();}
-
     private int id = 0;
+    private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
 
     @Override
     public Object clone(){
@@ -48,19 +27,15 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
         }
         return null;
     }
-
-//    //public abstract void updateFromMap();
-//    public Map<String, Object> getVarMap() {
-//        return varMap;
+//
+//    private String addVal(String value, String column){
+//        return value + column + ", ";
 //    }
 
-    private String addVal(String value, String column){
-        return value + column + ", ";
-    }
     public abstract ObservableList<?> getData();
     //public abstract Gettable<? extends dialogableModelDB> getNew();
 
-    public Field[] getFields(){
+    private Field[] getFields(){
         Class<?> c = this.getClass();
         return c.getFields();
     }
@@ -117,30 +92,29 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
 //        return null;
 //    }
 
-    public void validate(){
-        Class<?> c = this.getClass();
-        if(c.getFields() != null) {
-            try {
-                for (Field f: c.getFields()) {
-                    //validate(f);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public boolean validate(String s){
-
-        return false;
-    }
-
+//    public void validate(){
+//        Class<?> c = this.getClass();
+//        if(c.getFields() != null) {
+//            try {
+//                for (Field f: c.getFields()) {
+//                    //validate(f);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    public boolean validate(String s){
+//
+//        return false;
+//    }
 
     @Override
     public void insert(){
-        //List<Field> fieldList = getEditedFields(model);
+        log.info("Insert объекта dialogableModelDB в базу данных");
         Class<?> c = this.getClass();
-        if(c.getFields() != null){
+        if(c.getFields().length == 0){log.warning("Object of class" + c.getName() + "haven't fields"); return;}
         try {
                     //set a name of table
             Table table = c.getAnnotation(Table.class);
@@ -171,8 +145,8 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
                     else {
                         values += "'" + f.get(this).toString() + "'";
                     }
-                } catch (IllegalAccessException e) {e.printStackTrace(); return;}
-
+                } catch (IllegalAccessException e) {
+                    log.throwing(this.getClass().toString(),"Insert",e); return;}
                 notFirst = true;
 //                if(f.getType().getTypeName() == "String"){
 //                    try {
@@ -188,11 +162,12 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
 //                }
             }
             String query = insert + values + ");";
-            System.out.println(query);
+            log.info("Inserting query" + query);
 
-            PreparedStatement ps = ModelDB.getConnection().prepareStatement(query);
+            Connection connection = ModelDB.getConnection();
+            if (connection == null){log.warning("absent SQL connection"); return;}
+            PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
-
 //            for (Map.Entry<String,Object> e: this.getVarMap().entrySet()) {
 //                query += ", ?";
 //            }
@@ -225,77 +200,81 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
 //            ps.executeUpdate();
         }
         catch (SQLException e){
-            e.printStackTrace();
+            log.throwing(this.getClass().toString(),"Insert",e);
+            //e.printStackTrace();
         }
-    }
-        //return 0;
+        catch(Exception e){
+            log.throwing(this.getClass().toString(),"Insert",e);
+            //e.printStackTrace();
+        }
     }
     @Override
     public void update(){
+        log.info("Update объекта dialogableModelDB в базу данных");
         Class<?> c = this.getClass();
-        if(c.getFields() != null){
-            try {
-                //set a name of table
-                Table table = c.getAnnotation(Table.class);
-                String  query = "UPDATE `troubleshooting`.`" + table.table() + "` SET " ;
-                boolean notFirst = false;
-                Field[] lst = this.getFields();
-                for (Field f: lst) {
-                    //System.out.println(f);
-                    if (notFirst) {query += ", ";}    //tyt "', `"
-                    try {
-                        Column column = f.getAnnotation(Column.class);
-                        //add new column to query
-                        query += "`" + column.column() + "`=";  //tyt "`='"
-                        //add new value to query
-                        if(f.get(this) instanceof dialogableModelDB){       //save id of model to DB
-                            query += "'" + ((dialogableModelDB)f.get(this)).getId() + "'";
-                        }
-                        else if (f.get(this) instanceof Boolean){       //save id of model to DB
-                            query += ((Boolean)f.get(this)).toString();
-                        }
-                        else if (f.get(this) instanceof java.util.Date){       //save id of model to DB
-                            int year =  ((java.util.Date)f.get(this)).getYear() + 1900;
-                            int month = ((java.util.Date)f.get(this)).getMonth() + 1;
-                            int day = ((java.util.Date)f.get(this)).getDay();
-                            query += "'" + year + "-" + month + "-" + day + "'" ;
-                        }
-                        else {
-                            query += "'" + f.get(this).toString() + "'";
-                        }
-                    } catch (IllegalAccessException e) {e.printStackTrace(); return;}
-                    notFirst = true;
-                }
-                query += " WHERE `id`= ?;"; // "' WHERE `id`= ?;"
-                System.out.println(query);
+        if(c.getFields().length == 0){log.warning("Object of class" + c.getName() + "haven't fields"); return;}
+        try {
+            //set a name of table
+            Table table = c.getAnnotation(Table.class);
+            String  query = "UPDATE `troubleshooting`.`" + table.table() + "` SET " ;
+            boolean notFirst = false;
+            for (Field f: this.getFields()) {
+                if (notFirst) {query += ", ";}
+                try {
+                    Column column = f.getAnnotation(Column.class);
+                    //add new column to query
+                    query += "`" + column.column() + "`=";
+                    //add new value to query
+                    if(f.get(this) instanceof dialogableModelDB){       //save id of model to DB
+                        query += "'" + ((dialogableModelDB)f.get(this)).getId() + "'";
+                    }
+                    else if (f.get(this) instanceof Boolean){       //save id of model to DB
+                        query += ((Boolean)f.get(this)).toString();
+                    }
+                    else if (f.get(this) instanceof java.util.Date){       //save id of model to DB
+                        int year =  ((java.util.Date)f.get(this)).getYear() + 1900;
+                        int month = ((java.util.Date)f.get(this)).getMonth() + 1;
+                        int day = ((java.util.Date)f.get(this)).getDay();
+                        query += "'" + year + "-" + month + "-" + day + "'" ;
+                    }
+                    else {
+                        query += "'" + f.get(this).toString() + "'";
+                    }
+                } catch (IllegalAccessException e) {e.printStackTrace(); return;}
+                notFirst = true;
+            }
+            query += " WHERE `id`= ?;"; // "' WHERE `id`= ?;"
+            log.info("Updating query" + query);
 
-                PreparedStatement ps = ModelDB.getConnection().prepareStatement(query);
-                ps.setInt(1, this.getId());
-                ps.executeUpdate();
-            }
-            catch (SQLException e){
-                e.printStackTrace();
-            }
+            Connection connection = ModelDB.getConnection();
+            if (connection == null){log.warning("absent SQL connection"); return;}
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, this.getId());
+            ps.executeUpdate();
         }
-        //return 0;
+        catch (SQLException e){
+            log.throwing(this.getClass().toString(),"Update",e);
+        }
+        catch(Exception e){
+            log.throwing(this.getClass().toString(),"Update",e);
+        }
     }
     @Override
     public boolean delete(){
+        log.info("Delete объекта dialogableModelDB из базы данных");
         Class<?> c = this.getClass();
-        if(c.getFields() != null) {
-            try {
-                Table table = c.getAnnotation(Table.class);
-                //DELETE FROM `troubleshooting`.`forse` WHERE `id`='3';
-                PreparedStatement ps = ModelDB.getConnection().prepareStatement(
-                        "DELETE FROM `troubleshooting`.`" + table.table() +
-                                "` WHERE `id`=?;");
-                //ps.setString(1, table.table());
-                ps.setInt(1, this.getId());
-                ps.executeUpdate();
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            Table table = c.getAnnotation(Table.class);
+            //DELETE FROM `troubleshooting`.`forse` WHERE `id`='3';
+            String query =  "DELETE FROM `troubleshooting`.`" + table.table() +
+                            "` WHERE `id`=?;";
+            PreparedStatement ps = ModelDB.getConnection().prepareStatement(query);
+            ps.setInt(1, this.getId());
+            log.info("Deleting query" + query);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            log.throwing(this.getClass().toString(),"Update",e);
         }
         return false;
     }
@@ -317,8 +296,10 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
             Table table = c.getAnnotation(Table.class);
             return table.title();
         } catch (Exception e) {
-            System.out.println("Не найдена аннотация Table");
-            e.printStackTrace();
+            log.warning("Не найдена аннотация Table");
+            log.throwing(this.getClass().toString(),"GetModelName",e);
+//            System.out.println();
+//            e.printStackTrace();
         }
         return "";
     }

@@ -23,5 +23,4 @@ public class Jaxb_Aplic {
         connection.establishConnection();
         return connection;
     }
-
 }

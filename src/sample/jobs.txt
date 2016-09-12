@@ -1,0 +1,10 @@
+1) Exception on haven't annotation
+2) Mothers class for Models views
+    Obcervable list of items
+    Auto update table on change list (observer)
+    Functional interface for standart function
+    Generation CRUD context menu + function for add new menu items
+
+3) Validation of CRUD operation
+4) Formatting of Date
+5) Auto generation of TextArea if string size > seted

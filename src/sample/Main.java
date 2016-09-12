@@ -3,15 +3,11 @@ package sample;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 //import sample.dialogs.PLCEdit_Controller;
@@ -105,6 +101,7 @@ public class Main extends Application {
 
     public static void showSubZoneEditDialog(SubZone subZone, ObservableList<Zone> zoneList) {
         try {
+
             // Загружаем fxml-файл и создаём новую сцену
             // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
@@ -130,21 +127,32 @@ public class Main extends Application {
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
 
+
         } catch (IOException e) {
             e.printStackTrace();
+            AlertInfo("Dialog Box, SQL Editor exaption");
         }
     }
 
 
     public static void showSQLConfig_dialog() {
+
+
         try {
+            /*Parent addwin = FXMLLoader.load(Main.class.getResource("DB_configDialog.fxml"));
+            primaryStage.setTitle("Добавить БД");
+            primaryStage.setScene(new Scene(addwin, 400, 250));
+            primaryStage.setResizable(false);
+            primaryStage.toFront();
+            primaryStage.show();
+*/
             // Загружаем fxml-файл и создаём новую сцену
             // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("dialogs/DB_configDialog.FXML"));
+
+            loader.setLocation(Main.class.getResource("dialogs/DB_configDialog.fxml"));
             //GridPane page = (GridPane)loader.load();
             GridPane page = loader.load();
-
             // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Конфигурация MySQL подключения");
@@ -152,17 +160,23 @@ public class Main extends Application {
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
-
             // Передаём адресата в контроллер.
 
             DBconfigController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
-
         } catch (IOException e) {
             e.printStackTrace();
+            AlertInfo("Dialog box SQL EDitor Exeption");
         }
+    }
+    private static void AlertInfo(String s){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Предупреждение");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 }
    /* static void showModeledDialog(){

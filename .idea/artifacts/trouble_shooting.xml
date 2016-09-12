@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="trouble_shooting">
+    <output-path>$PROJECT_DIR$/out/artifacts/trouble_shooting</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="nativeBundle" value="exe" />
+        <option name="paramFile" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="trouble_shooting.jar">
+        <element id="module-output" name="trouble_shooting" />
+        <element id="library" level="project" name="mysql-connector-java-5.1.38-bin" />
+      </element>
+    </root>
+  </artifact>
+</component>
