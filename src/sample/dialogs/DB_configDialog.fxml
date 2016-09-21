@@ -43,7 +43,8 @@
          </GridPane.margin></TextArea>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
-            <Button mnemonicParsing="false" onAction="#But_OK_Tap" prefHeight="25.0" prefWidth="60.0" text="Ok" />
+            <Button mnemonicParsing="false" onAction="#But_reconnect_Tap" prefHeight="25.0" prefWidth="60.0" text="Переподключить" />
+            <Button mnemonicParsing="false" onAction="#But_OK_Tap" prefHeight="25.0" prefWidth="60.0" text="Сохранить" />
             <Button mnemonicParsing="false" onAction="#But_cansel_Tap" text="Отмена">
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />

@@ -2,46 +2,59 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import sample.Controller;
 
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Observable;
 import java.util.logging.Logger;
 
 /**
  * Created by VAN on 23.08.2016.
  */
 public class InfoPane <M extends dialogableModelDB> extends Pane{
+    private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
     private GridPane gridPane;
-    private TableView<?> table;
     private Label title;
     private VBox vbox;
-    private int size;
-    private HashSet<Node> NodeSet;
+    private Label crudTitle;
+    private HBox crudBox;
+    private HashSet<Node> NodeSet, crudSet;
+    private M model = null;
 
     private double length = 200;
 
-    Logger log = Logger.getLogger(InfoPane.class.getName());
     public InfoPane() {
         this(null);
     }
     public InfoPane(M model) {
+        this.model = model;
         NodeSet = new HashSet<>();
+        crudTitle = new Label("Редактирование");
+        crudSet = new HashSet<>();
         vbox = new VBox();
+        crudBox = new HBox();
         title = new Label();
         vbox.getChildren().add(title);
         gridPane = new GridPane();
-
-            //title
-        if (model != null) build(model);
         vbox.getChildren().add(gridPane);
         super.getChildren().add(vbox);
+
+
+            //title
+        if (model != null) {
+            infoBuild(model);
+            crudBuild();
+        }
     }
     private Node createIntNode(Integer val) {
         Label label = new Label(val.toString());
@@ -74,12 +87,62 @@ public class InfoPane <M extends dialogableModelDB> extends Pane{
 //        for(Node c :gridPane.getChildren()){
 //            gridPane.getChildren().
 //        }
+            //remove info
         for(Node node: NodeSet){
             gridPane.getChildren().remove(node);
         }
+        NodeSet.clear();
         gridPane.getChildren().removeAll();
+            //removing crud box
+        for(Node node: crudSet){
+            crudBox.getChildren().remove(node);
+        }
+        crudSet.clear();
+        crudBox.getChildren().removeAll();
+        vbox.getChildren().remove(crudTitle);
+        vbox.getChildren().remove(crudBox);
     }
-    public void build(M model){
+
+    private void crudBuild(){
+        vbox.getChildren().add(crudTitle);
+        vbox.getChildren().add(crudBox);
+        Button create = new Button("новый");
+        create.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                EditDialog<M> ED= new EditDialog(model.clone());
+                if(ED.getRet()) {
+                    ED.getModel().insert();
+                }
+            }
+        });
+        Button update = new Button("изменить");
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                EditDialog<M> ED= new EditDialog(model);
+                if(ED.getRet()) {
+                    ED.getModel().update();
+                }
+            }
+        });
+        Button delete = new Button("удалить");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                model.delete();
+            }
+        });
+        crudBox.setPadding(new Insets(15, 12, 15, 12));
+        crudBox.setSpacing(10);
+        crudBox.getChildren().addAll(create, update, delete);
+        crudSet.add(create);
+        crudSet.add(update);
+        crudSet.add(delete);
+    }
+
+    public void infoBuild(M model){
+        this.model = model;
         Class<?> c = model.getClass();
         Table t = c.getAnnotation(Table.class);
         String s = t.title();
@@ -123,73 +186,9 @@ public class InfoPane <M extends dialogableModelDB> extends Pane{
         }
     }
 
-    class tableItem{
-        String field;
-        Node item;
-
-        public tableItem(String field, Node item) {
-            this.field = field;
-            this.item = item;
-        }
-        public String getField() {
-            return field;
-        }
-        public void setField(String field) {
-            this.field = field;
-        }
-        public Node getItem() {
-            return item;
-        }
-        public void setItem(Node item) {
-            this.item = item;
-        }
-    }
-
-    public void _build(M model){
-        Class<?> c = model.getClass();
-        Table t = c.getAnnotation(Table.class);
-        String s = t.title();
-        title.setText(s);
-        Field[] fs = c.getFields();
-        ObservableList<?> list = FXCollections.observableArrayList();
-        //table.setItems(list);
-
-        for(int i=0;fs.length>i; i++){
-            //add label
-            Column column = fs[i].getAnnotation(Column.class);
-            Label label = new Label(column.title());
-            gridPane.add(label, 0, i);
-            //add value
-            try {
-                Object o = fs[i].get(model);
-                Node valNode = null;
-                if(o instanceof String){
-                    valNode = createStrNode((String) o);
-                }
-                else if(o instanceof java.util.Date){
-                    valNode = createDateNode((java.util.Date)o);
-                }
-                else if(o instanceof dialogableModelDB){
-                    valNode = createModelNode((dialogableModelDB) o);
-                }
-                else if (o instanceof Integer){
-                    valNode = createIntNode((Integer)o);
-                }
-                else if (o instanceof Boolean){
-                    valNode = createBoolNode((Boolean)o);
-                }
-                else{
-                    //node = new Button();
-
-                }
-                gridPane.add(valNode, 1, i);
-            } catch (IllegalAccessException e) {
-                log.throwing(this.getClass().toString(),"InfoPane_constructor",e);
-            }
-        }
-    }
     public void rebuild(M model){
         removeElements();
-        build(model);
+        infoBuild(model);
+        crudBuild();
     }
 }

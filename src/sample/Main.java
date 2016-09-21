@@ -28,15 +28,28 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View/MainForm.fxml"));  //sample.fxml
         primaryStage.setTitle("Trouble Shooting");
-        primaryStage.setScene(new Scene(root, 1200, 700));
+        primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static AnchorPane loadPane(String url){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(url));
+            //GridPane page = (GridPane)loader.load();
+            AnchorPane page = (AnchorPane) loader.load();
+            return page;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void showZoneEditDialog() {

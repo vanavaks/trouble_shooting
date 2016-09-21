@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.TroubleController">
+   <SplitPane dividerPositions="0.8030942334739803" layoutX="14.0" layoutY="44.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <items>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                             <children>
+                                 <TableView fx:id="troubleTable" layoutX="-171.0" layoutY="-84.0" prefHeight="398.0" prefWidth="928.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                                     <columns>
+                                         <TableColumn fx:id="troubleTable_Equipment" prefWidth="147.0" text="Оборудование" />
+                                         <TableColumn fx:id="troubleTable_Data" prefWidth="71.0" text="Дата" />
+                                         <TableColumn fx:id="troubleTable_Note" prefWidth="184.0" text="Неисправность" />
+                                         <TableColumn fx:id="troubleTable_Reason" prefWidth="174.0" text="Причина" />
+                                         <TableColumn fx:id="troubleTable_Actions" prefWidth="156.0" text="Мероприятия" />
+                                         <TableColumn fx:id="troubleTable_PPR" prefWidth="50.0" text="ППР" />
+                                         <TableColumn fx:id="troubleTable_Eng" prefWidth="75.0" text="Инженер" />
+                                     </columns>
+                                     <contextMenu>
+                                         <ContextMenu>
+                                             <items>
+                                                 <MenuItem fx:id="troubleAdd" mnemonicParsing="false" onAction="#troubleAdd_Tap" text="Добавить неисправность" />
+                                                 <MenuItem mnemonicParsing="false" onAction="#troubleUpdate_Tap" text="Изменить несправность" />
+                                                 <MenuItem mnemonicParsing="false" onAction="#troubleDelete_Tap" text="Удалить неисправность" />
+                                                 <MenuItem mnemonicParsing="false" onAction="#MI_ForceAdd_Tap" text="Добавить Force" />
+                                             </items>
+                                         </ContextMenu>
+                                     </contextMenu>
+                                 </TableView>
+                             </children>
+                         </AnchorPane>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                             <children>
+                                 <VBox layoutX="77.0" layoutY="-66.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                     <children>
+                                         <Label text="Forces" />
+                                         <TableView fx:id="TroubleForseTable">
+                                             <columns>
+                                                 <TableColumn fx:id="TroubleForcEngName" prefWidth="103.0" text="Инженер" />
+                                                 <TableColumn fx:id="TroubleForcPLC" prefWidth="67.0" text="PLC" />
+                                                 <TableColumn fx:id="TroubleForcAdress" minWidth="0.0" prefWidth="137.0" text="Адрес" />
+                                                 <TableColumn fx:id="TroubleForcNote" prefWidth="180.0" text="Примечание" />
+                                                 <TableColumn fx:id="TroubleForcIniciatorName" prefWidth="92.0" text="Инициатор" />
+                                             </columns>
+                                             <contextMenu>
+                                                 <ContextMenu>
+                                                     <items>
+                                                         <MenuItem fx:id="MI_TrablForceEdit" mnemonicParsing="false" onAction="#MI_TroubleForceEdit_Tap" text="Редактировать Force" />
+                                                     </items>
+                                                 </ContextMenu>
+                                             </contextMenu>
+                                         </TableView>
+                                     </children>
+                                 </VBox>
+                             </children>
+                         </AnchorPane>
+                     </items>
+                 </SplitPane>
+</AnchorPane>

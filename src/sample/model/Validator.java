@@ -1,5 +1,7 @@
 package sample.model;
 
+import sample.model.NotNull;
+
 import java.awt.*;
 import java.lang.reflect.Field;
 

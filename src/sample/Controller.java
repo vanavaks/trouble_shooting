@@ -20,7 +20,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import sample.XML_parser.JaxbParser;
+import sample.Temp.MySQLConnection;
+import sample.Utils.XML_parser.JaxbParser;
 import sample.model.*;
 import javafx.scene.image.*;
 
@@ -156,6 +157,8 @@ public class Controller {
 //    @FXML TableColumn<SubZone, String> subzoneTableZone;
 //    @FXML TableColumn<SubZone, String> subzoneTableNote;
 
+    InfoPane infoPane = new InfoPane();
+
     @FXML public void initialize(){
 //        try {
 //            JaxbParser parser = new JaxbParser();
@@ -194,6 +197,7 @@ public class Controller {
         if(DBconnect()){
             DBreadDatas();
         }
+
     }
 
 
@@ -208,7 +212,7 @@ public class Controller {
             return true;
         } catch (JAXBException e) {
             e.printStackTrace();
-            connection = new MySQLConnection();
+            //connection = new MySQLConnection();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -531,10 +535,15 @@ public class Controller {
         equipmentTableNote.setCellValueFactory(new PropertyValueFactory<Equipment,String>("note"));
 
         But_EquipmentUpdate.setDisable(true);
-        equipmentTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> EquipmentShowDetails(newValue));
-
+        zoneTreeTableView.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> equipmentInfo(newValue));
         EquipmentUpdateList();
     }
+    private void equipmentInfo(TreeItem<Equipment> i){
+        if(i == null) return;
+        if(i.getValue() == null) return;
+        infoPane.rebuild(i.getValue());
+    }
+
     private void EquipmentUpdateList(){
         equipmentList = new Equipment().getData();
         equipmentTable.setItems(equipmentList);
@@ -813,18 +822,19 @@ public class Controller {
 
         zoneUpdateList();
 
-//        ZoneTable.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> zoneShowDetails(newValue));
+        //zoneTreeTableView.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> zoneShowDetails(newValue));
 //        But_ZoneDel.setDisable(true);
    //     But_ZoneUpdate.setDisable(true);
     }
-    private void zoneShowDetails(Zone zone){
-        if(zone != null){
+    private void zoneShowDetails(Equipment equipment){
+        if(equipment != null){
 //            TW_Zone_name.setText(zone.getName());
 //            TW_Zone_pos.setText(zone.getPosition());
 //            TW_Zone_note.setText(zone.getNote());
 
          //   But_ZoneDel.setDisable(false);
          //   But_ZoneUpdate.setDisable(false);
+            infoPane.rebuild(equipment.getZone());
         }
     }
     private void zoneUpdateList(){
@@ -1444,7 +1454,7 @@ public class Controller {
         infoPane.removeElements();
     }
 
-    InfoPane infoPane = new InfoPane();
+
 
     private void troubleShowDetails(Trouble trouble){
         trouble = troubleTable.getSelectionModel().getSelectedItem();
@@ -1515,7 +1525,7 @@ public class Controller {
 
 
 
-    private void AlertInfo(String s){
+    public static void AlertInfo(String s){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Предупреждение");
         alert.setHeaderText(null);

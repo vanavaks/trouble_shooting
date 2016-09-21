@@ -1,59 +1,56 @@
 package sample.dialogs;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sample.MySQLConnection;
-import sample.XML_parser.JaxbParser;
-import sample.model.SubZone;
-import sample.model.Zone;
+import sample.Utils.DB_Provider.*;
+import sample.Utils.Logger.LoggerHelper;
+import sample.controller.MainController;
 
 import javax.xml.bind.JAXBException;
-import java.io.File;
-import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Иван on 12.08.2016.
  */
 
 public class DBconfigController {
-    public MySQLConnection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(MySQLConnection connection) {
-        this.connection = connection;
-    }
-
+    //private ILogger log;
+    Logger log;
+    private DBConnProp prop;
     private Stage dialogStage;
-    MySQLConnection connection;
-
-    JaxbParser parser = new JaxbParser();
-//    File file = new File("_config.xml");
-
-    File dir1 = new File("D://SomeDir");
-    File file = new File(dir1, "config.xml");
-
-    @FXML
-    private void initialize() {
-        try {
-
-            connection = (MySQLConnection)parser.getObject(file,MySQLConnection.class);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-            connection = new MySQLConnection();
-        }
-        TF_login.setText(connection.getLogin());
-        TF_pass.setText(connection.getPass());
-        TA_connString.setText(connection.getUrl());
-    }
 
     @FXML TextField TF_login;
     @FXML TextField TF_pass;
     @FXML TextArea TA_connString;
+
+    @FXML
+    private void initialize() {
+        log = LoggerHelper.getMainControllerLogger(); //Logger.getLogger(MainController.class.getName()); //new LoggerFX(DBconfigController.class.getName());
+
+        try {
+            DBConnProp prop = new DBParametersReaderXML().read();
+            TF_login.setText(prop.getLogin());
+            TF_pass.setText(prop.getPass());
+            TA_connString.setText(prop.getUrl());
+        } catch (JAXBException e) {
+            log.log(Level.SEVERE, "JAXB Exception, Не найден или не правелен файл настроек подключения к базе данных", e);
+            viewDefSetting();
+        } catch (Exception e){
+            log.log(Level.SEVERE, "Exception, Неизвесное исключение", e);
+            viewDefSetting();
+        }
+
+    }
+
+    private void viewDefSetting(){
+        TF_login.setText("root");
+        TF_pass.setText("admin");
+        TA_connString.setText("jdbc:mysql://localhost:3306/troubleshooting");
+    }
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -63,28 +60,40 @@ public class DBconfigController {
         dialogStage.close();
     }
     @FXML void But_OK_Tap(){
-        String s;
-        s = TF_login.getText();
-        if(s == "") {AlertInfo("Введите логин базы данных"); return;}
-        connection.setLogin(s);
-        s = TF_pass.getText();
-        if(s == "") {AlertInfo("Введите пароль базы данных"); return;}
-        connection.setPass(s);
-        s = TA_connString.getText();
-        if(s == "") {AlertInfo("Введите строку подключения базы данных"); return;}
-        connection.setUrl(s);
+        if(!Assert()) return;
+        IDBParametersReader reader = new DBParametersReaderXML();
         try {
-            parser.saveObject(file,connection);
-        } catch (JAXBException e) {
-            e.printStackTrace();
+            reader.write(prop);
+            log.info("Сохранен файл настроек подключения к базе данных");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Save property Exception",e);
         }
         dialogStage.close();
     }
-    private void AlertInfo(String s){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Предупреждение");
-        alert.setHeaderText(null);
-        alert.setContentText(s);
-        alert.showAndWait();
+
+    private boolean Assert(){
+        prop = new DBConnProp(TA_connString.getText(), TF_login.getText(), TF_pass.getText());
+        String s = prop.AssertString();
+        if(s.equals("")){
+            return true;
+        }
+        log.warning(s);
+        return false;
     }
+
+    @FXML void But_reconnect_Tap(){
+        try {
+            IDBConnection connection = MySQL_Connection.getInstance();
+            if(!Assert()){ return;  }
+            connection.setConnectionProp(prop);
+            connection.establishConnection();
+            if(connection.isConnected()) log.info("MySQL DataBace is connected");
+            else log.warning("MySQL DataBase is don't connected");
+        } catch(SQLException e){
+            log.log(Level.SEVERE, "SQL Exception, Невозможно подключиться к базе данных", e);
+        } catch (Exception e){
+            log.log(Level.SEVERE, "Exception, Неизвесное исключение при подключении к базе данных", e);
+        }
+    }
+
 }

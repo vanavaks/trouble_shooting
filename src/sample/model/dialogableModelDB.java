@@ -18,9 +18,13 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
     private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
 
     @Override
-    public Object clone(){
+    public dialogableModelDB clone(){
+        if(this == null){
+            log.warning("Model can't clone becouse is NULL");
+            return null;
+        }
         try {
-            return super.clone();
+            return (dialogableModelDB)super.clone();
         } catch (CloneNotSupportedException e) {
             System.out.println("Ошибка клонирования dialogable model");
             e.printStackTrace();

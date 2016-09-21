@@ -1,6 +1,4 @@
-package sample.XML_parser;
-
-import sample.MySQLConnection;
+package sample.Utils.XML_parser;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

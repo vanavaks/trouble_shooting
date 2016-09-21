@@ -209,4 +209,8 @@ public class Equipment extends dialogableModelDB{
     public void setSchematicDiagramPage(String schematicDiagramPage) {
         this.schematicDiagramPage = schematicDiagramPage;
     }
+
+    public Zone getZone(){
+        return this.getSubZone().getZone();
+    }
 }

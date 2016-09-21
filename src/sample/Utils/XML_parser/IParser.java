@@ -1,4 +1,4 @@
-package sample.XML_parser;
+package sample.Utils.XML_parser;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;

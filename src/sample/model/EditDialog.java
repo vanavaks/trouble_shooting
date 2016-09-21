@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sample.Controller;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by Иван on 06.07.2016.
@@ -44,6 +46,7 @@ import java.util.Map;
     String message();
 }
 public class EditDialog<T extends dialogableModelDB> {
+    private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
     private VBox vbox;
     private Stage stage;
     private List<Row> rowList = new ArrayList<Row>();  //rows list
@@ -67,6 +70,11 @@ public class EditDialog<T extends dialogableModelDB> {
         stage.showAndWait();
     }
     public void buildDialog(T model){
+        if(model == null){
+            log.warning("отсутствует модель (NULL)");
+            Controller.AlertInfo("отсутствует модель");
+            return;
+        }
         stage = new Stage();
         Class<?> c = model.getClass();
         Table table = c.getAnnotation(Table.class);

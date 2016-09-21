@@ -1,21 +1,25 @@
-package sample;
+package sample.Temp;
 
-import javax.xml.bind.annotation.XmlElement;
+import sample.Utils.XML_parser.JaxbParser;
+
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
  * Created by Иван on 10.04.2016.
+ * Pattern Singletone
  */
 @XmlRootElement //(name = "DataBase")
 @XmlType(propOrder = {"url","login","pass"})
 public class MySQLConnection {
-
-    private Connection connection;
+    private final static MySQLConnection instance = new MySQLConnection();  //Singletone
+    private static Connection connection;
 
     private String url = "jdbc:mysql://localhost:3306/troubleshooting";
 
@@ -23,8 +27,29 @@ public class MySQLConnection {
 
     private String pass = "admin";
 
-    public MySQLConnection() {}
+    private static boolean connected = false;
+    private MySQLConnection() {}  //Singletone
 
+    public static MySQLConnection getInstance(){    //Singletone
+        return instance;
+    }
+
+    private boolean DBconnect(){
+        try {
+            JaxbParser parser = new JaxbParser();
+            File dir1 = new File("D://SomeDir");
+            File file = new File(dir1, "config.xml");
+            MySQLConnection connection = (MySQLConnection)parser.getObject(file,MySQLConnection.class);
+            establishConnection();
+            return true;
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            //
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void MySQLConnectionSetProp(String url, String login, String pass) {
         this.url = url;
         this.login = login;

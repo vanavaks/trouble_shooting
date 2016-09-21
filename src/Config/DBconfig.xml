@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dbConnProp>
+    <url>jdbc:mysql://localhost:3306/troubleshooting</url>
+    <login>root</login>
+    <pass>admin</pass>
+</dbConnProp>

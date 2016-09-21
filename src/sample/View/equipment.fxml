@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.MenuItem?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.EquipmentController">
+    <children>
+        <TreeTableView fx:id="zoneTreeTableView" layoutX="25.0" layoutY="29.0" prefHeight="605.0" prefWidth="901.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+            <contextMenu>
+                <ContextMenu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#But_ZoneAdd_Tap" text="Добавить зону" />
+                        <MenuItem mnemonicParsing="false" onAction="#But_ZoneUpdate_Tap" text="Изменить зону" />
+                        <MenuItem mnemonicParsing="false" onAction="#But_ZoneDel_Tap" text="Удалить зону" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#MI_subzoneAdd_Tap" text="Добавить подзону" />
+                        <MenuItem mnemonicParsing="false" onAction="#MI_subzoneUpdate_Tap" text="Изменить подзону" />
+                        <MenuItem mnemonicParsing="false" onAction="#MI_subzoneDel_Tap" text="Удалить подзону" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#But_EquipmentInsert_Tap" text="Добавить оборудование" />
+                        <MenuItem mnemonicParsing="false" onAction="#But_EquipmentUpdate_Tap" text="Изменить оборудвание" />
+                        <MenuItem mnemonicParsing="false" onAction="#But_EquipmentDelete_Tap" text="Удалить оборудование" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    </items>
+                </ContextMenu>
+            </contextMenu></TreeTableView>
+    </children>
+    </AnchorPane>
