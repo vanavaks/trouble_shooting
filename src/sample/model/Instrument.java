@@ -2,11 +2,14 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.model.Mothers.Column;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.function.Function;
 
 /**
  * Created by Иван on 16.07.2016.
@@ -76,7 +79,8 @@ public class Instrument extends dialogableModelDB {
         else if(manufacturer != null){
             query += " WHERE `manufacturer_id`=" + manufacturer.getId();
         }
-
+        query += " order by function_id";
+        System.out.println(query);
         try{
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -130,11 +134,10 @@ public class Instrument extends dialogableModelDB {
     return null;
 }
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList<Equipment> list = Equipment.getDataFiltered(null,this);
-        if(list.size() > 0) return false;
-
-        return super.delete();
+        if(list.size() == 0) return super.delete();
+        return false;
     }
     @Override
     public String toString(){

@@ -17,7 +17,6 @@ import java.sql.*;
 public class ImageBlob {
     private int id;
     private String name;
-    //private File file;
     //private Blob imageBlob;
     private Image image;
     private int troubleId;

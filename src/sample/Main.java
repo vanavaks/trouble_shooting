@@ -10,13 +10,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-//import sample.dialogs.PLCEdit_Controller;
-//import sample.dialogs.SubZoneEditController;
-//import sample.dialogs.ZoneAdd_Controller;
+import sample.Temp.dialogs.PLCEdit_Controller;
+import sample.Temp.dialogs.SubZoneEditController;
+import sample.Temp.dialogs.ZoneAdd_Controller;
+import sample.controller.DBconfigController;
 import sample.model.PLC;
 import sample.model.SubZone;
 import sample.model.Zone;
-import sample.dialogs.*;
 
 import java.io.IOException;
 
@@ -163,7 +163,7 @@ public class Main extends Application {
             // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(Main.class.getResource("dialogs/DB_configDialog.fxml"));
+            loader.setLocation(Main.class.getResource("View/DB_configDialog.fxml"));
             //GridPane page = (GridPane)loader.load();
             GridPane page = loader.load();
             // Создаём диалоговое окно Stage.

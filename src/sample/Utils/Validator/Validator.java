@@ -1,6 +1,4 @@
-package sample.model;
-
-import sample.model.NotNull;
+package sample.Utils.Validator;
 
 import java.awt.*;
 import java.lang.reflect.Field;

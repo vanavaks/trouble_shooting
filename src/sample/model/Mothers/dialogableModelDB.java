@@ -1,4 +1,4 @@
-package sample.model;
+package sample.model.Mothers;
 
 import javafx.collections.ObservableList;
 import java.lang.reflect.Field;
@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -26,8 +27,7 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
         try {
             return (dialogableModelDB)super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Ошибка клонирования dialogable model");
-            e.printStackTrace();
+            log.log(Level.SEVERE,"Ошибка клонирования dialogable model",e);
         }
         return null;
     }
@@ -264,23 +264,23 @@ public abstract class dialogableModelDB extends ModelDB implements Cloneable {
         }
     }
     @Override
-    public boolean delete(){
-        log.info("Delete объекта dialogableModelDB из базы данных");
+    public boolean delete() throws SQLException{
+        //log.info("Delete объекта dialogableModelDB из базы данных");
         Class<?> c = this.getClass();
-        try {
+        //try {
             Table table = c.getAnnotation(Table.class);
             //DELETE FROM `troubleshooting`.`forse` WHERE `id`='3';
             String query =  "DELETE FROM `troubleshooting`.`" + table.table() +
                             "` WHERE `id`=?;";
             PreparedStatement ps = ModelDB.getConnection().prepareStatement(query);
             ps.setInt(1, this.getId());
-            log.info("Deleting query" + query);
+            log.info("Deleting query " + query + this.getId());
             ps.executeUpdate();
             return true;
-        } catch (SQLException e) {
-            log.throwing(this.getClass().toString(),"Update",e);
-        }
-        return false;
+//        } catch (SQLException e) {
+//            log.log(Level.SEVERE,this.getClass().toString() + "Delete",e);
+//        }
+        //return false;
     }
     public static List<Field> getEditedFields(dialogableModelDB o) {
         List<Field> fieldList = null;

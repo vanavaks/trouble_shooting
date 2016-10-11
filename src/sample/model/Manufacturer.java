@@ -3,15 +3,21 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.model.Mothers.Column;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Иван on 16.07.2016.
  */
-@Table(title = "Функция прибора", table = "manufacturer")
+@Table(title = "Производитель", table = "manufacturer")
 public class Manufacturer extends dialogableModelDB {
     @Column(title = "Производитель", column = "name")
     @NotNull(message = "Введите название производителя")
@@ -101,11 +107,10 @@ public class Manufacturer extends dialogableModelDB {
         return list;
     }
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList<Instrument> i =  Instrument.getDataFiltered(null, this);
-        if(i.size() != 0) return false;
-        //if(sz.size() > 0) return;
-        return super.delete();
+        if(i.size() == 0) return super.delete();
+        return false;
     }
 
     public String getName() {
@@ -123,5 +128,39 @@ public class Manufacturer extends dialogableModelDB {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static ObservableList<Manufacturer> getDataFiltered(InstrumentFunc instrumentFunc) {
+        ObservableList<Manufacturer> list = FXCollections.observableArrayList();
+        try{
+            Statement statement = getConnection().createStatement();
+            String query =  "SELECT  " +
+                    "A.id, " +
+                    "A.name, " +
+                    "A.note " +
+                    "FROM troubleshooting.manufacturer  A " +
+                    "INNER JOIN troubleshooting.instrument B " +
+                    "ON(B.manufacturer_id = A.id) " +
+                    " where B.instrumentfunc_id = " + instrumentFunc.getId();
+            query +=" order by name";
+            System.out.println(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            Set<Integer> tempS = new HashSet<Integer>();
+            while (resultSet.next()) {
+                if(resultSet.getInt("id") == 0) continue;
+                Integer tempId =  resultSet.getInt("id");
+                if(tempS.contains(tempId)) continue;
+                tempS.add(tempId);
+                Manufacturer manufacturer =  new Manufacturer(  tempId,
+                        resultSet.getNString("name"),
+                        resultSet.getNString("note")
+                );
+                list.add(manufacturer);
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
     }
 }

@@ -1,4 +1,4 @@
-package sample.dialogs;
+package sample.Temp.dialogs;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -10,6 +10,10 @@ import java.sql.SQLException;
 public class MySQL_Connection implements IDBConnection{
     private static MySQL_Connection instance = new MySQL_Connection();  //Singletone
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     private Connection connection;
     private DBConnProp connectionProp;
     private boolean connStatus;

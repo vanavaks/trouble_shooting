@@ -2,6 +2,10 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.model.Mothers.Column;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +15,7 @@ import java.sql.Statement;
  * Created by Иван on 16.07.2016.
  */
 @Table(title = "Оборудование", table = "equipment")
-public class Equipment extends dialogableModelDB{
+public class Equipment extends dialogableModelDB {
     @Column(title = "Название", column = "name")
     @NotNull(message = "Введите Название")
     public String name;
@@ -42,6 +46,10 @@ public class Equipment extends dialogableModelDB{
     //public Equipment(String name) {this(); this.name = name;}
     public Equipment() {
         this(0, "", "", 0, 0, "", "", "");
+    }
+    public Equipment(SubZone subZone){
+        this();
+        this.subZone = subZone;
     }
     public Equipment(String name, String pos, SubZone subZone){
         this(); this.name = name; this.position = pos; this.subZone = subZone;
@@ -154,7 +162,7 @@ public class Equipment extends dialogableModelDB{
         }
         return null;
     }
-    public boolean delete(){
+    public boolean delete() throws SQLException{
         if(Trouble.getDataFiltered(this, null).size() == 0){
             return super.delete();
         }

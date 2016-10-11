@@ -1,50 +1,31 @@
-package sample.model;
+package sample.FX;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sample.Controller;
+import sample.Temp.Controller;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
  * Created by Иван on 06.07.2016.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@interface Column{
-    String title();
-    String column();
-}
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface EditedFields {
-    String[] value() default {};
-}
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface Table {
-    String title();
-    String table();
-}
 
-@Retention(RetentionPolicy.RUNTIME)
-@interface NotNull{
-    String message();
-}
+
+
+
 public class EditDialog<T extends dialogableModelDB> {
     private static Logger log = Logger.getLogger(dialogableModelDB.class.getName());
     private VBox vbox;

@@ -1,4 +1,4 @@
-package sample.model;
+package sample.Temp;
 
 import java.sql.Connection;
 import java.util.ArrayList;

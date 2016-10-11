@@ -1,14 +1,11 @@
 package sample.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.*;
 
 import java.sql.*;
-import java.util.List;
 
 /**
  * Created by Иван on 24.06.2016.
@@ -34,7 +31,7 @@ public class SubZone extends dialogableModelDB {
         this.name = name ;//new SimpleStringProperty(name);
         this.position = position;
         this.note = note; //new SimpleStringProperty(note);
-        this.zone = (Zone)Zone.get(zoneId);
+        this.zone = Zone.get(zoneId);
 
         //For dialog
         //varMap = new HashMap<String, Object>();
@@ -118,19 +115,18 @@ public class SubZone extends dialogableModelDB {
         try {
             Statement statement = ModelDB.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            if(resultSet.next()) {
-                while (resultSet.next()) {
-                    list.add(new
-                            SubZone(resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("position"),
-                            resultSet.getString("note"),
-                            resultSet.getInt("zoneId")
-                            //resultSet.getString("B.name")
-                    ));
-                }
-                return list;
+            while (resultSet.next()) {
+                if(resultSet.getInt("id") == 0) continue;
+                list.add(new
+                        SubZone(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("position"),
+                        resultSet.getString("note"),
+                        resultSet.getInt("zoneId")
+                        //resultSet.getString("B.name")
+                ));
             }
+            return list;
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -270,7 +266,7 @@ public class SubZone extends dialogableModelDB {
 //        }
 //    }
 
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList<Equipment> list = Equipment.getDataFiltered(this,null);
         if(list.size() == 0){
             return super.delete();

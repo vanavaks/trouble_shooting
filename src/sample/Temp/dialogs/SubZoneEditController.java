@@ -1,4 +1,4 @@
-package sample.dialogs;
+package sample.Temp.dialogs;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

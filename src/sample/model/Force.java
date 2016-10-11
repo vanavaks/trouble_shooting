@@ -1,11 +1,11 @@
 package sample.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.model.Mothers.Column;
+import sample.model.Mothers.ModelDB;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.*;
 import java.util.Date;
@@ -138,6 +138,7 @@ public class Force extends dialogableModelDB {
     }
     public static ObservableList<Force> getDataFiltered(int engineer_id, int initiator_id, int PLC_id, Date startData, Date endDate){
         ObservableList<Force> list = FXCollections.observableArrayList();
+
 
         String query =  "SELECT  " +
                 "A.id," +

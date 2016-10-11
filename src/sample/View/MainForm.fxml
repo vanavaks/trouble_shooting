@@ -69,7 +69,7 @@
                         <panes>
                             <TitledPane text="Фильтры">
                                 <content>
-                                    <AnchorPane fx:id="InfoPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <AnchorPane fx:id="IInfoPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                         <children>
                                             <Button layoutX="37.0" layoutY="77.0" mnemonicParsing="false" onAction="#But_SQL_config_Tap" text="SQL" />
                                         </children>
@@ -101,7 +101,7 @@
                     </Accordion>
                 </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+          <AnchorPane fx:id="infoPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
         </items>
       </SplitPane>
    </right>

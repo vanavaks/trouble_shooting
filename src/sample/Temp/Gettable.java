@@ -1,4 +1,6 @@
-package sample.model;
+package sample.Temp;
+
+import sample.model.Mothers.dialogableModelDB;
 
 /**
  * Created by Иван on 09.08.2016.

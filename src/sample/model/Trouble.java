@@ -3,12 +3,19 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.FX.FXHelper;
+import sample.model.Mothers.Column;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Formatter;
 
 /**
  * Created by Иван on 23.06.2016.
@@ -36,7 +43,7 @@ public class Trouble extends dialogableModelDB {
 
     public Trouble(Integer id, Date date, String note, String reason, int equipment_id, String actions, Boolean ppr, Integer number,int engineer_id) {
         super.setId(id);
-        this.date = new java.util.Date(date.getTime());
+        this.setDate(new java.util.Date(date.getTime()));
         this.note = note;
         this.reason = reason;
         this.equipment = Equipment.get(equipment_id);
@@ -126,7 +133,7 @@ public class Trouble extends dialogableModelDB {
     }
 
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList list = Force.getDataFiltered(this);
         if(list.size() == 0){
             return super.delete();
@@ -136,7 +143,7 @@ public class Trouble extends dialogableModelDB {
 
     @Override
     public String toString(){
-        return getDate().toString() + " " + note + " " + getEquipment().toString();
+        return FXHelper.dateFormatted(getDate()) + " " + note + " " + getEquipment().toString();
     }
 
     public Date getDate() {

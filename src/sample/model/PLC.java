@@ -1,14 +1,11 @@
 package sample.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.*;
 
 import java.sql.*;
-import java.util.HashMap;
 
 /**
  * Created by Иван on 11.04.2016.
@@ -79,7 +76,7 @@ public class PLC extends dialogableModelDB {
         return list;
     }
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList<Force> list = Force.getDataFiltered(0,0,this.getId(),null,null);
         if(list.size() == 0){
             return super.delete();

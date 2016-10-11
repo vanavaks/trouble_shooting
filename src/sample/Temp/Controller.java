@@ -1,4 +1,4 @@
-package sample;
+package sample.Temp;
 
 //import java.awt.*;
 import java.io.File;
@@ -20,10 +20,12 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import sample.Temp.MySQLConnection;
+import sample.FX.EditDialog;
+import sample.Main;
 import sample.Utils.XML_parser.JaxbParser;
 import sample.model.*;
 import javafx.scene.image.*;
+import sample.model.Mothers.dialogableModelDB;
 
 import javax.xml.bind.JAXBException;
 import java.util.logging.Logger;
@@ -157,7 +159,7 @@ public class Controller {
 //    @FXML TableColumn<SubZone, String> subzoneTableZone;
 //    @FXML TableColumn<SubZone, String> subzoneTableNote;
 
-    InfoPane infoPane = new InfoPane();
+    sample.FX.InfoPane infoPane = sample.FX.InfoPane.getInstance();
 
     @FXML public void initialize(){
 //        try {
@@ -267,7 +269,7 @@ public class Controller {
     @FXML void manufactureDelete_Tap(){
         Manufacturer m = InstrumentsTreeTableView.getSelectionModel().getSelectedItem().getValue().getManufacturer();
         if(m != null){
-            m.delete();
+            //m.delete();
             ManufacturerUpdateList();
             instrumentsTreeUpdate();
         }
@@ -315,7 +317,7 @@ public class Controller {
     @FXML void instrumentFuncDelete_Tap(){
         InstrumentFunc If = InstrumentsTreeTableView.getSelectionModel().getSelectedItem().getValue().getFunction();
         if (If != null){
-            If.delete();
+            //If.delete();
             InstrumentFuncUpdateList();
             instrumentsTreeUpdate();
         }
@@ -404,7 +406,7 @@ public class Controller {
     @FXML void But_Instrument_Del_Tap(){
         Instrument i = InstrumentsTreeTableView.getSelectionModel().getSelectedItem().getValue();// instrumentTable.getSelectionModel().getSelectedItem();
         if(i== null) return;
-        i.delete();
+        //i.delete();
         InstrumentUpdateList();
         instrumentsTreeUpdate();
     }
@@ -541,7 +543,7 @@ public class Controller {
     private void equipmentInfo(TreeItem<Equipment> i){
         if(i == null) return;
         if(i.getValue() == null) return;
-        infoPane.rebuild(i.getValue());
+        //infoPane.rebuild(i.getValue());
     }
 
     private void EquipmentUpdateList(){
@@ -568,7 +570,7 @@ public class Controller {
     }
     @FXML void But_EquipmentDelete_Tap(){
         Equipment i = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue(); //equipmentTable.getSelectionModel().getSelectedItem();
-        i.delete();
+        //i.delete();
         EquipmentUpdateList();
         zoneTreeUpdate();
     }
@@ -597,7 +599,7 @@ public class Controller {
     }
     @FXML void But_TroubleDelete_Tap(){
         Manufacturer manufacturer = new Manufacturer(1, "Rectifier", "Semiconductor equipment");
-        manufacturer.delete();
+        //manufacturer.delete();
     }
     @FXML void But_newForce_Tap(){
 
@@ -655,7 +657,7 @@ public class Controller {
         SubZone subZone = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue().getSubZone();
         if(subZone != null){
             //Main.showSubZoneEditDialog(subZone, zoneList);
-            subZone.delete();
+            //subZone.delete();
             subzoneUpdateList();
             zoneTreeUpdate();
         }
@@ -834,7 +836,7 @@ public class Controller {
 
          //   But_ZoneDel.setDisable(false);
          //   But_ZoneUpdate.setDisable(false);
-            infoPane.rebuild(equipment.getZone());
+            //infoPane.rebuild(equipment.getZone());
         }
     }
     private void zoneUpdateList(){
@@ -848,7 +850,7 @@ public class Controller {
         //Zone zone = ZoneTable.getSelectionModel().selectedItemProperty().getValue();
         Zone zone = zoneTreeTableView.getSelectionModel().getSelectedItem().getValue().getSubZone().getZone();
         if(zone != null) {
-            zone.delete();
+            //zone.delete();
             zoneUpdateList();
             zoneTreeUpdate();
         }
@@ -990,7 +992,7 @@ public class Controller {
         zoneTreeTableView.getColumns().setAll(zoneTreeTableColumnZone,apointmentColumn, instrumentColumn, pageColumn, noteColumn);
         zoneTreeUpdate();
     }
-    public void zoneTreeUpdate(){
+    private void zoneTreeUpdate(){
         zoneTreeItem = new TreeItem<>(new Equipment("Factory"," ",new SubZone())); //Here must be certainly object Zone
 
         for(Zone z: zoneList){
@@ -1444,7 +1446,7 @@ public class Controller {
         Lab_forceAdr.setText(force.getAdress());
         Lab_forceInic.setText(force.getIniciator().toString());
         Lab_forceNote.setText(force.getNote());
-        infoPane.rebuild(force);
+        //infoPane.rebuild(force);
     }
 
     @FXML
@@ -1470,7 +1472,7 @@ public class Controller {
         Lab_troubleActions.setText(trouble.getActions());
         Lab_troubleEngineer.setText(trouble.getEngineer().toString());
 
-        infoPane.rebuild(trouble);
+        //infoPane.rebuild(trouble);
     }
 
     @FXML void troubleAdd_Tap(){
@@ -1513,7 +1515,7 @@ public class Controller {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 // ... user chose OK
-                model.delete();
+                //model.delete();
                 return true;
             } else {
                 // ... user chose CANCEL or closed the dialog

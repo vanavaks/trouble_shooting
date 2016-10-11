@@ -1,11 +1,13 @@
 package sample.model;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.model.Mothers.Column;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.Table;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.sql.*;
-import java.util.HashMap;
 
 /**
  * Created by Иван on 11.04.2016.
@@ -99,7 +101,7 @@ public class Zone extends dialogableModelDB {
 //    }
 
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         if(SubZone.get(this) != null){
             ObservableList<SubZone> list =  SubZone.getDataFiltered(this);
             if(list.size() > 0) return false;

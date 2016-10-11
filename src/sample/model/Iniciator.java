@@ -2,6 +2,8 @@ package sample.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Utils.Validator.NotNull;
+import sample.model.Mothers.*;
 
 import java.sql.*;
 
@@ -22,6 +24,11 @@ public class Iniciator extends dialogableModelDB {
         this.note = note;
     }
     public Iniciator(){this(0,"","");}
+
+    @Override
+    public dialogableModelDB clone() {
+        return super.clone();
+    }
 
     public ObservableList<Iniciator> getData(){
         ObservableList<Iniciator> list = FXCollections.observableArrayList();
@@ -70,7 +77,7 @@ public class Iniciator extends dialogableModelDB {
         return iniciator;
     }
     @Override
-    public boolean delete(){
+    public boolean delete()throws SQLException{
         ObservableList<Force> list = Force.getDataFiltered(0,this.getId(),0,null,null);
         if(list.size() == 0){
             super.delete();

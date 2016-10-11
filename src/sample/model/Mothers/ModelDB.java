@@ -1,14 +1,8 @@
-package sample.model;
+package sample.model.Mothers;
 
-import javafx.collections.ObservableList;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  * Created by Иван on 12.07.2016.
@@ -29,7 +23,7 @@ public abstract class ModelDB {
     //public static  model get(int id){return new model};
 
 
-    public abstract boolean delete();
+    public abstract boolean delete() throws SQLException;
     public int delete(String table, int id){
         try {
             //DELETE FROM `troubleshooting`.`forse` WHERE `id`='3';

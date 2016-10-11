@@ -1,4 +1,4 @@
-package sample.model;
+package sample.FX;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import sample.Utils.Validator.Validator;
+import sample.model.Mothers.Column;
+import sample.model.Mothers.dialogableModelDB;
 
 import java.lang.reflect.Field;
 import java.time.Instant;
